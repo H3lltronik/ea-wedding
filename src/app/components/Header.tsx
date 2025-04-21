@@ -1,6 +1,8 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import WeddingLogo from '../icons/WeddingLogo'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 interface HeaderProps {
   className?: string;
@@ -9,6 +11,7 @@ interface HeaderProps {
 
 export const Header = ({ className = '', logoClassName = 'w-[80px] h-[80px]' }: HeaderProps) => {
   const [isMounted, setIsMounted] = useState(false);
+  const pathname = usePathname();
   
   // Ensure hydration
   useEffect(() => {
@@ -19,11 +22,42 @@ export const Header = ({ className = '', logoClassName = 'w-[80px] h-[80px]' }: 
     return null;
   }
 
+  const isFormPage = pathname === '/form';
+
   return (
     <div 
-      className={`flex justify-center items-center w-full bg-white bg-opacity-90 backdrop-blur-sm py-2 ${className}`}
+      className={`flex justify-between items-center w-full bg-white bg-opacity-90 backdrop-blur-sm py-2 px-4 md:px-6 ${className}`}
     >
-      <WeddingLogo className={`text-red-300 ${logoClassName}`} />
+      <div className="flex-1">
+        {/* Espacio para mantener el logo centrado */}
+        {!isFormPage && (
+          <div className="invisible">
+            <Link 
+              href="/form" 
+              className="bg-red-400 hover:bg-red-500 text-white font-medium py-2 px-4 rounded-full text-sm md:text-base transition-all duration-300 hover:shadow-md flex-shrink-0"
+            >
+              Confirmar asistencia
+            </Link>
+          </div>
+        )}
+      </div>
+
+      <div className="flex justify-center">
+        <Link href="/" className="flex-shrink-0">
+          <WeddingLogo className={`text-red-300 ${logoClassName}`} />
+        </Link>
+      </div>
+      
+      <div className="flex-1 flex justify-end">
+        {!isFormPage && (
+          <Link 
+            href="/form" 
+            className="bg-red-400 hover:bg-red-500 text-white font-medium py-2 px-4 rounded-full text-sm md:text-base transition-all duration-300 hover:shadow-md flex-shrink-0"
+          >
+            Confirmar asistencia
+          </Link>
+        )}
+      </div>
     </div>
   );
 }

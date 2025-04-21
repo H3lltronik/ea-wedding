@@ -15,6 +15,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-dancing: var(--font-parisienne);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -40,50 +41,49 @@ body {
   overflow-x: hidden;
 }
 
-/* Estilos para scroll snap */
-.snap-container {
-  height: 100vh;
-  overflow-y: auto;
-  scroll-snap-type: y mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-  scroll-behavior: smooth;
-}
-
-.snap-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-}
-
-.snap-section {
-  scroll-snap-align: start;
-  height: 100vh;
-  width: 100%;
-  position: relative;
+/* Font classes */
+.font-parisienne {
+  font-family: var(--font-parisienne);
 }
 
 /* Estilos para navegación de puntos */
 .scroll-indicator {
-  position: fixed;
-  right: 30px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: none; /* Ocultar los indicadores de puntos ya que no usamos snap scroll */
 }
 
-.scroll-indicator-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  transition: all 0.3s;
+/* Mantener los demás estilos no relacionados con snap scroll */
+
+/* Custom Ant Design Styling */
+.antd-wed-form .ant-steps-item-process .ant-steps-item-icon {
+  background-color: rgba(248, 113, 113, 0.9);
+  border-color: rgba(248, 113, 113, 0.9);
 }
 
-.scroll-indicator-dot.active {
-  background-color: white;
-  transform: scale(1.5);
+.antd-wed-form .ant-steps-item-finish .ant-steps-item-icon {
+  border-color: rgba(248, 113, 113, 0.9);
+}
+
+.antd-wed-form .ant-steps-item-finish .ant-steps-icon {
+  color: rgba(248, 113, 113, 0.9);
+}
+
+.antd-wed-form .ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title::after {
+  background-color: rgba(248, 113, 113, 0.5);
+}
+
+.antd-wed-form .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+.antd-wed-form .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+  background-color: #ef4444;
+}
+
+.antd-wed-form .ant-radio-button-wrapper:hover {
+  color: #ef4444;
+}
+
+.antd-wed-form .ant-form-item-label > label {
+  font-weight: 500;
 }

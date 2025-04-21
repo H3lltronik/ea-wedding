@@ -3,23 +3,13 @@ import { useEffect, useState, useRef } from "react";
 import { Header } from "./components/Header";
 import { HeroSection } from "./sections/HeroSection";
 import { GallerySection } from "./sections/GallerySection";
-import useSmoothScroll from "./hooks/useSmoothScroll";
+import { DressCodeSection } from "./sections/DressCodeSection";
 
 export default function Home() {
   const [animationStage, setAnimationStage] = useState(0);
   const [scrollBlocked, setScrollBlocked] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Secciones para los indicadores de navegación
-  const sections = ['hero', 'gallery', 'footer'];
-
-  // Usar nuestro hook personalizado para el scroll suave
-  const { activeSection, scrollToSection } = useSmoothScroll({
-    containerRef,
-    sections,
-    scrollBlocked,
-    duration: 1500
-  });
+  const [headerVisible, setHeaderVisible] = useState(false);
 
   // Función para avanzar a la siguiente etapa de animación
   const goToNextStage = () => {
@@ -33,77 +23,92 @@ export default function Home() {
       console.log("Todas las animaciones completadas, desbloqueando scroll");
       const timer = setTimeout(() => {
         setScrollBlocked(false);
-      }, 1200); 
-      
+      }, 600);
+
       return () => clearTimeout(timer);
     }
   }, [animationStage]);
 
-  // Bloquear scroll
+  // Bloquear scroll durante animaciones iniciales
   useEffect(() => {
     if (!containerRef.current) return;
-    
+
     if (scrollBlocked) {
-      containerRef.current.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
       console.log("Scroll bloqueado");
     } else {
-      containerRef.current.style.overflow = 'auto';
+      document.body.style.overflow = 'auto';
       console.log("Scroll desbloqueado");
     }
   }, [scrollBlocked]);
 
+  // Controlamos la visibilidad del header basada en el scroll
+  useEffect(() => {
+    if (scrollBlocked || !containerRef.current) return;
+    
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      // Mostrar el header cuando nos desplazamos más allá de la altura de la ventana
+      if (scrollY > 100) {
+        setHeaderVisible(true);
+      } else {
+        setHeaderVisible(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrollBlocked]);
+
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
-      <div 
-        ref={containerRef} 
-        className={`snap-container ${scrollBlocked ? 'overflow-hidden' : ''}`}
-        style={{ height: '100vh', width: '100%' }}
-      >
+    <div className="min-h-screen">
+      {/* Header único y fijo para toda la aplicación */}
+      <Header 
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          headerVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+        }`} 
+      />
+      
+      <div ref={containerRef}>
         {/* Primera sección - Hero con animación de logo y nombres */}
-        <HeroSection 
+        <HeroSection
           animate={true}
           index={0}
           onAnimationComplete={() => goToNextStage()}
-          className="snap-section"
+          className="min-h-screen"
         />
-        
-        {/* A partir de aquí comienza la segunda sección con su header */}
-        <div className="snap-section">
-          {/* Header sticky para toda la sección de galería */}
-          <Header className="sticky top-0 z-50" />
+
+        {/* Segunda sección - Galería */}
+        <div className="min-h-screen">
+          {/* Espacio para compensar el header fijo cuando es visible */}
+          <div className="h-[80px]"></div>
           
-          {/* Contenido de la galería - sin clase snap-section para evitar conflictos */}
-          <GallerySection 
+          {/* Contenido de la galería */}
+          <GallerySection
             animate={animationStage >= 1}
             index={1}
             onAnimationComplete={() => animationStage === 1 && goToNextStage()}
           />
         </div>
-        
-        {/* Tercera sección - Footer */}
-        <div className="snap-section flex flex-col justify-center items-center bg-gray-100 h-screen">
-          {/* Mantenemos el Header visible */}
-          <Header className="sticky top-0 z-50" />
+
+        {/* Tercera sección - Dress Code */}
+        <div className="min-h-screen">
+          {/* Espacio para compensar el header fijo */}
+          <div className="h-[80px]"></div>
           
-          <div className="flex-grow flex items-center justify-center">
-            <div className="text-center">
-              <p className="text-gray-500">© 2025 Nuestra Boda</p>
-            </div>
+          {/* Contenido del Dress Code */}
+          <DressCodeSection />
+        </div>
+
+        {/* Footer */}
+        <div className="flex flex-col justify-center items-center bg-gray-100 py-8">
+          <div className="text-center">
+            <p className="text-gray-500">© 2025 Nuestra Boda</p>
           </div>
         </div>
       </div>
-      
-      {!scrollBlocked && (
-        <div className="scroll-indicator">
-          {sections.map((_, index) => (
-            <div 
-              key={index}
-              className={`scroll-indicator-dot ${activeSection === index ? 'active' : ''}`}
-              onClick={() => scrollToSection(index)}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 }
