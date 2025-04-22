@@ -5,6 +5,8 @@ import { Header } from '../components/Header';
 import GuestForm from '../components/forms/GuestForm';
 import { motion } from 'framer-motion';
 import { ThemeBackground } from '../components/forms/GuestForm/components/ThemeBackground';
+import { ThemeAudioPlayer } from '../components/forms/GuestForm/components/ThemeAudioPlayer';
+import { Card } from 'antd';
 
 export default function FormPageContent() {
   const [isLoading, setIsLoading] = useState(true);
@@ -96,13 +98,15 @@ export default function FormPageContent() {
             </motion.div>
 
             {/* Título y descripción */}
-            <motion.div className="max-w-4xl mx-auto mb-10 text-center" variants={itemVariants}>
-              <h1 className="text-4xl md:text-5xl font-parisienne text-red-400 mb-4">Confirmación de Asistencia</h1>
-              <p className="text-gray-600 max-w-2xl mx-auto">
-                Por favor completa el formulario para confirmar tu asistencia a nuestra boda. 
-                Estamos muy emocionados de compartir este día especial contigo.
-              </p>
-            </motion.div>
+            <Card>
+              <motion.div className="max-w-4xl mx-auto mb-10 text-center" variants={itemVariants}>
+                <h1 className="text-4xl md:text-5xl font-parisienne text-red-400 mb-4">Confirmación de Asistencia</h1>
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  Por favor completa el formulario para confirmar tu asistencia a nuestra boda. 
+                  Estamos muy emocionados de compartir este día especial contigo.
+                </p>
+              </motion.div>
+            </Card>
 
             {/* Formulario */}
             <motion.div variants={itemVariants}>
@@ -110,6 +114,9 @@ export default function FormPageContent() {
             </motion.div>
           </motion.div>
         )}
+        
+        {/* Reproductor de audio temático */}
+        <ThemeAudioPlayer />
       </div>
     </ThemeBackground>
   );

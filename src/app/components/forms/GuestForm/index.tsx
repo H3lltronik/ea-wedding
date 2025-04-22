@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect } from 'react';
-import { Form } from 'antd';
+import { Card, Form } from 'antd';
 import { 
   GuestInfoStep, 
   ThemePreferencesStep, 
@@ -142,7 +142,9 @@ export default function GuestForm() {
   return (
     <div className="py-10 px-4 min-h-screen">
       <div className="max-w-4xl mx-auto">
-        <FormSteps currentStep={currentStep} />
+        <Card>
+          <FormSteps currentStep={currentStep} />
+        </Card>
         
         <Form 
           form={form} 

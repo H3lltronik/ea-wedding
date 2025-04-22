@@ -13,9 +13,11 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/invitation-error') ||
     pathname.startsWith('/videos/') ||  // Permitir acceso a videos
     pathname.startsWith('/public/') ||  // Permitir acceso a la carpeta public
+    pathname.startsWith('/audio/') ||   // Permitir acceso a la carpeta audio
     pathname.includes('.svg') ||        // Permitir acceso a SVGs
     pathname.includes('.mp4') ||        // Permitir acceso a archivos MP4
     pathname.includes('.webm') ||       // Permitir acceso a archivos WebM
+    pathname.includes('.mp3') ||        // Permitir acceso a archivos MP3
     pathname.includes('.ogg')           // Permitir acceso a archivos OGG
   ) {
     return NextResponse.next();
@@ -71,6 +73,6 @@ export const config = {
   matcher: [
     // Aplica el middleware solo a las rutas específicas que requieren autenticación
     // Excluye archivos estáticos, API, imágenes y página de error
-    '/((?!_next/static|_next/image|favicon.ico|invitation-error|videos|public|.*\\.svg|.*\\.mp4|.*\\.webm|.*\\.ogg).*)',
+    '/((?!_next/static|_next/image|favicon.ico|invitation-error|videos|public|audio|.*\\.svg|.*\\.mp4|.*\\.webm|.*\\.mp3|.*\\.ogg).*)',
   ],
 }; 

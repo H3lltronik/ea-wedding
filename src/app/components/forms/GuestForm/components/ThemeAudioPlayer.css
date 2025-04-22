@@ -1,0 +1,120 @@
+/* Estilos personalizados para el reproductor de audio */
+.theme-audio-player {
+  --rhap-theme-color: #f87171;
+  --rhap-bar-color: #fee2e2;
+  --rhap-background-color: transparent;
+  --rhap-button-color: #f87171;
+  --rhap-font-family: sans-serif;
+  --rhap-border-radius: 8px;
+}
+
+.theme-audio-player .rhap_container {
+  box-shadow: none;
+  padding: 10px 12px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.theme-audio-player .rhap_main {
+  width: 100%;
+}
+
+.theme-audio-player .rhap_progress-section {
+  margin-bottom: 8px;
+  padding: 0 2px;
+}
+
+.theme-audio-player .rhap_progress-bar {
+  height: 4px;
+  background: var(--rhap-bar-color);
+}
+
+.theme-audio-player .rhap_progress-filled {
+  background: var(--rhap-theme-color);
+}
+
+.theme-audio-player .rhap_progress-indicator {
+  width: 12px;
+  height: 12px;
+  top: -4px;
+  margin-left: -6px;
+  background: var(--rhap-theme-color);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.theme-audio-player .rhap_progress-bar-show-download {
+  background-color: var(--rhap-bar-color);
+}
+
+.theme-audio-player .rhap_controls-section {
+  margin-top: 0;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.theme-audio-player .rhap_volume-controls {
+  justify-content: flex-end;
+  margin: 0;
+}
+
+.theme-audio-player .rhap_volume-container {
+  flex: 0 0 auto;
+}
+
+.theme-audio-player .rhap_volume-bar {
+  height: 4px;
+  width: 50px;
+  background: var(--rhap-bar-color);
+}
+
+.theme-audio-player .rhap_volume-indicator {
+  width: 12px;
+  height: 12px;
+  top: -4px;
+  margin-left: -6px;
+  background: var(--rhap-theme-color);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+}
+
+.theme-audio-player .rhap_button-clear {
+  font-size: 26px;
+  color: var(--rhap-button-color);
+  transition: color 0.2s ease;
+}
+
+.theme-audio-player .rhap_button-clear:hover {
+  color: #ef4444;
+}
+
+.theme-audio-player .rhap_container:hover .rhap_progress-indicator {
+  opacity: 1;
+}
+
+.theme-audio-player .rhap_main-controls {
+  flex: 0 1 auto;
+}
+
+.theme-audio-player .rhap_play-pause-button {
+  font-size: 32px;
+  width: 40px;
+  height: 40px;
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .theme-audio-player {
+    color: #fff;
+  }
+  
+  .theme-audio-player .rhap_button-clear {
+    color: #f87171;
+  }
+  
+  .theme-audio-player .rhap_time {
+    color: rgba(255, 255, 255, 0.85);
+  }
+} 

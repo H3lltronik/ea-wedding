@@ -8,15 +8,15 @@ import { hogwartsHouseOptions, starWarsSideOptions } from '../constants/imageOpt
 import { useFormContext } from '../context/FormContext';
 
 export const ThemePreferencesStep: React.FC = () => {
-  const { 
-    currentGuestIndex, 
+  const {
+    currentGuestIndex,
     guests,
     currentGuest,
     updateGuestTheme,
     updateGuestHouse,
     updateGuestJediSith
   } = useFormContext();
-  
+
   // Determinar progreso
   const guestsCount = guests.length;
   const progress = {
@@ -25,28 +25,28 @@ export const ThemePreferencesStep: React.FC = () => {
     percentage: guestsCount ? Math.round(((currentGuestIndex + 1) / guestsCount) * 100) : 0,
     isComplete: currentGuestIndex >= guestsCount - 1
   };
-  
+
   // Determinar si ya se completaron todos los invitados
   const hasCompletedAllGuests = currentGuestIndex >= guestsCount;
-  
+
   // Manejador para el cambio de tema
   const handleThemeChange = (value: ThemePreference) => {
     updateGuestTheme(currentGuestIndex, value);
   };
-  
+
   // Manejador para el cambio de casa de Hogwarts
   const handleHouseChange = (value: string) => {
     updateGuestHouse(currentGuestIndex, value as HogwartsHouse);
   };
-  
+
   // Manejador para el cambio de lado de la fuerza
   const handleJediSithChange = (value: string) => {
     updateGuestJediSith(currentGuestIndex, value as StarWarsSide);
   };
-  
+
   // Obtener nombre del invitado actual
   const guestName = currentGuest?.name || `Invitado ${currentGuestIndex + 1}`;
-  
+
   // Función para encontrar la URL de la imagen de la casa seleccionada
   const getHouseImageSrc = (house: string) => {
     const option = hogwartsHouseOptions.find(option => option.value === house);
@@ -58,15 +58,15 @@ export const ThemePreferencesStep: React.FC = () => {
     const option = starWarsSideOptions.find(option => option.value === side);
     return option ? option.imageSrc : '';
   };
-  
+
   // Convierte HogwartsHouse y StarWarsSide a string para compatibilidad con ImageRadioGroup
   const houseValue = currentGuest?.house ? String(currentGuest.house) : null;
   const jediSithValue = currentGuest?.jediSith ? String(currentGuest.jediSith) : null;
-  
+
   // Si todos los invitados han completado, mostrar una pantalla de resumen
   if (hasCompletedAllGuests) {
     return (
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
@@ -74,28 +74,28 @@ export const ThemePreferencesStep: React.FC = () => {
         className="max-w-3xl mx-auto p-6"
       >
         <h2 className="text-2xl font-parisienne text-center mb-8 text-red-400">¡Temas seleccionados!</h2>
-        
+
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h3 className="text-lg font-semibold mb-4 text-gray-700">
             Todos los invitados han seleccionado sus preferencias
           </h3>
-          
+
           <div className="space-y-4 mb-8">
             {guests.map((guest, index) => {
               return (
                 <div key={index} className="p-4 border border-red-100 rounded-md">
                   <p className="font-semibold mb-2">{guest.name || `Invitado ${index + 1}`}</p>
-                  
+
                   <div className="flex flex-col gap-3">
                     <div className="flex items-center gap-2">
                       <span className="text-gray-600 font-medium">Preferencia:</span> {' '}
                       <span>
-                        {guest.themePreference === ThemePreference.STAR_WARS ? 'Star Wars' : 
-                         guest.themePreference === ThemePreference.HARRY_POTTER ? 'Harry Potter' : 
-                         guest.themePreference === ThemePreference.BOTH ? 'Ambas' : 'Ninguna'}
+                        {guest.themePreference === ThemePreference.STAR_WARS ? 'Star Wars' :
+                          guest.themePreference === ThemePreference.HARRY_POTTER ? 'Harry Potter' :
+                            guest.themePreference === ThemePreference.BOTH ? 'Ambas' : 'Ninguna'}
                       </span>
                     </div>
-                    
+
                     {(guest.themePreference === ThemePreference.HARRY_POTTER || guest.themePreference === ThemePreference.BOTH) && guest.house && (
                       <div className="flex items-center gap-2">
                         <span className="text-gray-600 font-medium">Casa:</span> {' '}
@@ -113,7 +113,7 @@ export const ThemePreferencesStep: React.FC = () => {
                         </span>
                       </div>
                     )}
-                    
+
                     {(guest.themePreference === ThemePreference.STAR_WARS || guest.themePreference === ThemePreference.BOTH) && guest.jediSith && (
                       <div className="flex items-center gap-2">
                         <span className="text-gray-600 font-medium">Lado:</span> {' '}
@@ -136,7 +136,7 @@ export const ThemePreferencesStep: React.FC = () => {
               );
             })}
           </div>
-          
+
           <div className="text-center">
             <p className="mb-4">Para continuar al siguiente paso, haz clic en &quot;Siguiente&quot;</p>
             <p className="mb-4">Si necesitas hacer cambios, puedes regresar usando el botón &quot;Anterior&quot;</p>
@@ -147,7 +147,7 @@ export const ThemePreferencesStep: React.FC = () => {
   }
 
   return (
-    <motion.div 
+    <motion.div
       key={`guest-preferences-${currentGuestIndex}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -155,29 +155,31 @@ export const ThemePreferencesStep: React.FC = () => {
       transition={{ duration: 0.5 }}
       className="max-w-3xl mx-auto p-6"
     >
-      <h2 className="text-2xl font-parisienne text-center mb-4 text-red-400">Temática de la boda</h2>
-      
-      <div className="mb-8">
-        <Progress 
-          percent={progress.percentage} 
-          format={() => `${progress.current + 1}/${progress.total}`}
-          status="active"
-          strokeColor={{ from: '#fecaca', to: '#f87171' }}
-        />
-      </div>
-      
+      <Card className="!mb-8">
+        <h2 className="text-2xl font-parisienne text-center mb-4 text-red-400">Temática de la boda</h2>
+
+        <div className="">
+          <Progress
+            percent={progress.percentage}
+            format={() => `${progress.current + 1}/${progress.total}`}
+            status="active"
+            strokeColor={{ from: '#fecaca', to: '#f87171' }}
+          />
+        </div>
+      </Card>
+
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <Card 
+        <Card
           title={`Preferencias de ${guestName}`}
           className="border-red-100 shadow-sm"
           styles={{ header: { background: 'rgba(254, 226, 226, 0.5)' } }}
         >
-          <Form.Item 
-            label="¿Qué prefieres?" 
+          <Form.Item
+            label="¿Qué prefieres?"
             required
             className="mb-6"
           >
-            <Radio.Group 
+            <Radio.Group
               onChange={(e) => handleThemeChange(e.target.value)}
               value={currentGuest?.themePreference || null}
               className="flex flex-wrap gap-4"
@@ -188,7 +190,7 @@ export const ThemePreferencesStep: React.FC = () => {
               <Radio.Button value={ThemePreference.NONE} className="p-2 flex items-center">Ninguna</Radio.Button>
             </Radio.Group>
           </Form.Item>
-          
+
           <AnimatePresence>
             {(currentGuest?.themePreference === ThemePreference.HARRY_POTTER || currentGuest?.themePreference === ThemePreference.BOTH) && (
               <motion.div
@@ -198,11 +200,11 @@ export const ThemePreferencesStep: React.FC = () => {
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden mb-6"
               >
-                <Form.Item 
+                <Form.Item
                   label="¿De qué casa eres?"
                   required
                 >
-                  <ImageRadioGroup 
+                  <ImageRadioGroup
                     options={hogwartsHouseOptions}
                     value={houseValue}
                     onChange={handleHouseChange}
@@ -211,7 +213,7 @@ export const ThemePreferencesStep: React.FC = () => {
                 </Form.Item>
               </motion.div>
             )}
-            
+
             {(currentGuest?.themePreference === ThemePreference.STAR_WARS || currentGuest?.themePreference === ThemePreference.BOTH) && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
@@ -220,11 +222,11 @@ export const ThemePreferencesStep: React.FC = () => {
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden"
               >
-                <Form.Item 
+                <Form.Item
                   label="¿Qué tipo de personaje eres?"
                   required
                 >
-                  <ImageRadioGroup 
+                  <ImageRadioGroup
                     options={starWarsSideOptions}
                     value={jediSithValue}
                     onChange={handleJediSithChange}
@@ -254,7 +256,7 @@ export const ThemePreferencesStep: React.FC = () => {
                   </div>
                 </div>
               )}
-              
+
               {currentGuest?.themePreference === ThemePreference.HARRY_POTTER && (
                 <div className="text-center">
                   <p className="text-lg mb-2">¡Lumos Maxima!</p>
@@ -265,7 +267,7 @@ export const ThemePreferencesStep: React.FC = () => {
                   </div>
                 </div>
               )}
-              
+
               {currentGuest?.themePreference === ThemePreference.BOTH && (
                 <div className="text-center">
                   <p className="text-lg mb-2">¡La magia y la fuerza están contigo!</p>

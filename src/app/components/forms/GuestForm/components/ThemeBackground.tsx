@@ -2,7 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { useFormContext } from '../context/FormContext';
-import { ThemePreference, HogwartsHouse, StarWarsSide } from '../constants/enums';
+import { ThemePreference } from '../constants/enums';
+
+// Importamos las imágenes de fondo
+import harryPotterBg from '@/assets/backgrounds/harry-potter-bg.jpg';
+import starWarsBg from '@/assets/backgrounds/star-wars-bg.jpg';
+import bothBg from '@/assets/backgrounds/both-bg.jpg';
 
 type ThemeBackgroundProps = {
   children: React.ReactNode;
@@ -10,65 +15,76 @@ type ThemeBackgroundProps = {
 
 export const ThemeBackground: React.FC<ThemeBackgroundProps> = ({ children }) => {
   const { currentGuest } = useFormContext();
-  const [bgClass, setBgClass] = useState('bg-gradient-to-r from-pink-50 to-red-50');
+  const [bgImage, setBgImage] = useState<string | null>(null);
+  const [isChanging, setIsChanging] = useState(false);
 
   useEffect(() => {
     if (!currentGuest || !currentGuest.themePreference) {
-      setBgClass('bg-gradient-to-r from-pink-50 to-red-50'); // Default background
+      setBgImage(null);
       return;
     }
     
     console.log("[ThemeBackground] themePreference", currentGuest.themePreference);
     console.log("[ThemeBackground] guest", currentGuest);
     
-    switch (currentGuest.themePreference) {
-      case ThemePreference.HARRY_POTTER:
-        const house = currentGuest.house;
-        switch (house) {
-          case HogwartsHouse.GRYFFINDOR:
-            setBgClass('bg-gradient-to-br from-red-800 to-yellow-600');
-            break;
-          case HogwartsHouse.SLYTHERIN:
-            setBgClass('bg-gradient-to-br from-green-800 to-gray-600');
-            break;
-          case HogwartsHouse.RAVENCLAW:
-            setBgClass('bg-gradient-to-br from-blue-800 to-gray-500');
-            break;
-          case HogwartsHouse.HUFFLEPUFF:
-            setBgClass('bg-gradient-to-br from-yellow-500 to-black');
-            break;
-          default:
-            setBgClass('bg-gradient-to-r from-indigo-600 to-purple-600'); // Generic Hogwarts
-        }
-        break;
-      
-      case ThemePreference.STAR_WARS:
-        const jediSith = currentGuest.jediSith;
-        switch (jediSith) {
-          case StarWarsSide.JEDI:
-            setBgClass('bg-gradient-to-br from-blue-600 to-sky-300');
-            break;
-          case StarWarsSide.SITH:
-            setBgClass('bg-gradient-to-br from-red-700 to-red-950');
-            break;
-          default:
-            setBgClass('bg-gradient-to-r from-gray-900 to-gray-600'); // Generic Star Wars
-        }
-        break;
-      
-      case ThemePreference.BOTH:
-        // Para "ambos", podemos hacer una mezcla de los temas
-        setBgClass('bg-gradient-to-r from-blue-600 via-purple-600 to-red-600');
-        break;
+    // Iniciar animación de transición
+    setIsChanging(true);
+    
+    // Esperar un momento antes de cambiar la imagen (para la animación)
+    const timer = setTimeout(() => {
+      switch (currentGuest.themePreference) {
+        case ThemePreference.HARRY_POTTER:
+          setBgImage(harryPotterBg.src);
+          break;
         
-      default:
-        setBgClass('bg-gradient-to-r from-pink-50 to-red-50'); // Default wedding theme
-    }
+        case ThemePreference.STAR_WARS:
+          setBgImage(starWarsBg.src);
+          break;
+        
+        case ThemePreference.BOTH:
+          setBgImage(bothBg.src);
+          break;
+          
+        default:
+          setBgImage(null);
+      }
+      
+      // Finalizar animación después de un breve retraso
+      setTimeout(() => {
+        setIsChanging(false);
+      }, 300);
+    }, 300);
+    
+    return () => clearTimeout(timer);
   }, [currentGuest]);
 
   return (
-    <div className={`min-h-screen transition-colors duration-1000 ${bgClass}`}>
-      {children}
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Fondo por defecto cuando no hay imagen seleccionada */}
+      {!bgImage && (
+        <div className="absolute inset-0 bg-gradient-to-r from-pink-50 to-red-50 transition-opacity duration-1000 ease-in-out" />
+      )}
+      
+      {/* Imagen de fondo cuando hay una selección */}
+      {bgImage && (
+        <div 
+          className={`absolute inset-0 transition-all duration-1000 ease-in-out ${isChanging ? 'opacity-0 scale-110' : 'opacity-100 scale-100'}`}
+          style={{
+            backgroundImage: `url(${bgImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          {/* Overlay para mejorar legibilidad del contenido */}
+          <div className="absolute inset-0 bg-black opacity-30" />
+        </div>
+      )}
+      
+      {/* Contenido de la página */}
+      <div className="relative z-10">
+        {children}
+      </div>
     </div>
   );
 }; 
