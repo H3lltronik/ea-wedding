@@ -5,7 +5,12 @@ export type GuestFormValues = {
   rootGuestName: string;
   guests: {
     name: string;
-    age: number;
+    age?: number;
+    preferences?: {
+      theme: ThemePreference | null;
+      house?: HogwartsHouse;
+      jediSith?: StarWarsSide;
+    };
   }[];
   themePreferences: {
     guestIndex: number;

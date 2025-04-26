@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Radio, Card, Progress } from 'antd';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -6,16 +6,82 @@ import { ThemePreference, HogwartsHouse, StarWarsSide } from '../constants/enums
 import { ImageRadioGroup } from './ImageRadioGroup';
 import { hogwartsHouseOptions, starWarsSideOptions } from '../constants/imageOptions';
 import { useFormContext } from '../context/FormContext';
+import { guestFormRules } from '../../../forms/guestFormSchema';
 
-export const ThemePreferencesStep: React.FC = () => {
+type FormValues = {
+  themePreference: ThemePreference | null;
+  house: HogwartsHouse | null;
+  jediSith: StarWarsSide | null;
+};
+
+type ThemePreferencesStepProps = {
+  form: ReturnType<typeof Form.useForm>[0];
+};
+
+export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form }) => {
   const {
     currentGuestIndex,
     guests,
     currentGuest,
     updateGuestTheme,
     updateGuestHouse,
-    updateGuestJediSith
+    updateGuestJediSith,
+    setThemePreferencesForm
   } = useFormContext();
+
+  // Register form with context
+  useEffect(() => {
+    setThemePreferencesForm(form);
+    
+    // Cleanup on unmount
+    return () => {
+      setThemePreferencesForm(null);
+    };
+  }, [form, setThemePreferencesForm]);
+  
+  // Sincronizar guest actual con el formulario cuando cambia
+  useEffect(() => {
+    if (currentGuest) {
+      form.setFieldsValue({
+        themePreference: currentGuest.themePreference,
+        house: currentGuest.house,
+        jediSith: currentGuest.jediSith
+      });
+    }
+  }, [currentGuest, form, currentGuestIndex]);
+  
+  // Manejar cambios en valores del formulario
+  const onFormValuesChange = (changedValues: Partial<FormValues>) => {
+    if ('themePreference' in changedValues && changedValues.themePreference !== undefined) {
+      // Actualizamos el contexto con el nuevo valor de preferencia
+      updateGuestTheme(currentGuestIndex, changedValues.themePreference);
+      
+      // Si cambiamos de tema, reseteamos las opciones específicas
+      if (changedValues.themePreference !== currentGuest?.themePreference) {
+        if (changedValues.themePreference !== ThemePreference.HARRY_POTTER && 
+            changedValues.themePreference !== ThemePreference.BOTH) {
+          // Si el nuevo tema no es Harry Potter ni ambos, resetear la casa
+          updateGuestHouse(currentGuestIndex, null);
+          form.setFieldsValue({ house: null });
+        }
+        
+        if (changedValues.themePreference !== ThemePreference.STAR_WARS && 
+            changedValues.themePreference !== ThemePreference.BOTH) {
+          // Si el nuevo tema no es Star Wars ni ambos, resetear lado de la fuerza
+          updateGuestJediSith(currentGuestIndex, null);
+          form.setFieldsValue({ jediSith: null });
+        }
+      }
+    }
+    
+    if ('house' in changedValues && changedValues.house !== undefined) {
+      updateGuestHouse(currentGuestIndex, changedValues.house);
+    }
+    
+    if ('jediSith' in changedValues && changedValues.jediSith !== undefined) {
+      updateGuestJediSith(currentGuestIndex, changedValues.jediSith);
+    }
+  };
 
   // Determinar progreso
   const guestsCount = guests.length;
@@ -28,21 +94,6 @@ export const ThemePreferencesStep: React.FC = () => {
 
   // Determinar si ya se completaron todos los invitados
   const hasCompletedAllGuests = currentGuestIndex >= guestsCount;
-
-  // Manejador para el cambio de tema
-  const handleThemeChange = (value: ThemePreference) => {
-    updateGuestTheme(currentGuestIndex, value);
-  };
-
-  // Manejador para el cambio de casa de Hogwarts
-  const handleHouseChange = (value: string) => {
-    updateGuestHouse(currentGuestIndex, value as HogwartsHouse);
-  };
-
-  // Manejador para el cambio de lado de la fuerza
-  const handleJediSithChange = (value: string) => {
-    updateGuestJediSith(currentGuestIndex, value as StarWarsSide);
-  };
 
   // Obtener nombre del invitado actual
   const guestName = currentGuest?.name || `Invitado ${currentGuestIndex + 1}`;
@@ -175,14 +226,17 @@ export const ThemePreferencesStep: React.FC = () => {
           styles={{ header: { background: 'rgba(254, 226, 226, 0.5)' } }}
         >
           <Form.Item
+            name="themePreference"
             label="¿Qué prefieres?"
-            required
+            rules={guestFormRules.themePreference}
             className="mb-6"
+            validateStatus={!currentGuest?.themePreference ? "error" : undefined}
+            help={!currentGuest?.themePreference ? "Este campo es obligatorio" : undefined}
           >
             <Radio.Group
-              onChange={(e) => handleThemeChange(e.target.value)}
               value={currentGuest?.themePreference || null}
               className="flex flex-wrap gap-4"
+              onChange={e => onFormValuesChange({ themePreference: e.target.value })}
             >
               <Radio.Button value={ThemePreference.STAR_WARS} className="p-2 flex items-center">Star Wars</Radio.Button>
               <Radio.Button value={ThemePreference.HARRY_POTTER} className="p-2 flex items-center">Harry Potter</Radio.Button>
@@ -201,14 +255,17 @@ export const ThemePreferencesStep: React.FC = () => {
                 className="overflow-hidden mb-6"
               >
                 <Form.Item
+                  name="house"
                   label="¿De qué casa eres?"
-                  required
+                  rules={guestFormRules.house}
+                  validateStatus={currentGuest.house ? undefined : "error"}
+                  help={!currentGuest.house ? "Debes seleccionar una casa" : undefined}
                 >
                   <ImageRadioGroup
                     options={hogwartsHouseOptions}
                     value={houseValue}
-                    onChange={handleHouseChange}
                     imageHeight={130}
+                    onChange={value => onFormValuesChange({ house: value as HogwartsHouse })}
                   />
                 </Form.Item>
               </motion.div>
@@ -223,14 +280,17 @@ export const ThemePreferencesStep: React.FC = () => {
                 className="overflow-hidden"
               >
                 <Form.Item
+                  name="jediSith"
                   label="¿Qué tipo de personaje eres?"
-                  required
+                  rules={guestFormRules.jediSith}
+                  validateStatus={currentGuest.jediSith ? undefined : "error"}
+                  help={!currentGuest.jediSith ? "Debes seleccionar un tipo de personaje" : undefined}
                 >
                   <ImageRadioGroup
                     options={starWarsSideOptions}
                     value={jediSithValue}
-                    onChange={handleJediSithChange}
                     imageHeight={130}
+                    onChange={value => onFormValuesChange({ jediSith: value as StarWarsSide })}
                   />
                 </Form.Item>
               </motion.div>

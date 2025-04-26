@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useEffect } from 'react';
-import { Card, Form } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Card, Form, message, Alert, Button } from 'antd';
 import { 
   GuestInfoStep, 
   ThemePreferencesStep, 
@@ -13,11 +13,22 @@ import {
 } from './components';
 import { useFormContext } from './context/FormContext';
 import { FormStep } from './constants/enums';
-import { GuestFormValues } from '../guestFormSchema';
 import { useRootInvitation } from './hooks/useRootInvitation';
+import { GuestService } from '../../../services/supabaseService';
+import { useRouter } from 'next/navigation';
+import { useInvitationCode } from '../../../hooks/useInvitationCode';
 
 export default function GuestForm() {
-  const [form] = Form.useForm<GuestFormValues>();
+  // Un solo formulario para toda la aplicación
+  const [form] = Form.useForm();
+  const router = useRouter();
+  
+  // Obtener el código de invitación para usarlo en redirecciones
+  const { invitationCode } = useInvitationCode();
+  
+  // Estados para controlar si ya existe una respuesta
+  const [existingSubmission, setExistingSubmission] = useState<boolean>(false);
+  const [checkingSubmission, setCheckingSubmission] = useState<boolean>(true);
   
   // Get invitation data
   const { rootInvitation, loading, error } = useRootInvitation();
@@ -28,15 +39,41 @@ export default function GuestForm() {
     currentGuestIndex,
     setCurrentGuestIndex,
     isSubmitting,
-    setIsSubmitting
+    setIsSubmitting,
+    validateCurrentStep,
+    getMergedFormData
   } = useFormContext();
+  
+  // Estado del formulario (paso actual)
+  const [currentStep, setCurrentStep] = useState<FormStep>(FormStep.GUEST_INFO);
+  
+  // Verificar si ya existe una respuesta para esta invitación
+  useEffect(() => {
+    const checkExistingSubmission = async () => {
+      if (rootInvitation?.id) {
+        setCheckingSubmission(true);
+        try {
+          const { exists } = await GuestService.checkExistingSubmission(rootInvitation.id);
+          setExistingSubmission(exists);
+        } catch (error) {
+          console.error('Error al verificar respuesta existente:', error);
+        } finally {
+          setCheckingSubmission(false);
+        }
+      }
+    };
+    
+    if (rootInvitation) {
+      checkExistingSubmission();
+    }
+  }, [rootInvitation]);
   
   // Setup initial guest data when rootInvitation changes
   useEffect(() => {
-    if (rootInvitation) {
+    if (rootInvitation && !existingSubmission) {
       const guestsCount = rootInvitation.invitations_amount;
       
-      // Inicializar datos del formulario
+      // Inicializar el formulario con los valores iniciales
       form.setFieldsValue({
         rootGuestName: rootInvitation.name,
         guests: Array(guestsCount).fill(null).map((_, i) => ({
@@ -54,18 +91,17 @@ export default function GuestForm() {
         jediSith: null
       })));
     }
-  }, [rootInvitation, form, setGuests]);
-  
-  // Estado del formulario (paso actual)
-  const [currentStep, setCurrentStep] = React.useState<FormStep>(FormStep.GUEST_INFO);
+  }, [rootInvitation, form, setGuests, existingSubmission]);
   
   // Navegar al siguiente paso
   const next = async () => {
     try {
       if (currentStep === FormStep.GUEST_INFO) {
-        await form.validateFields(['rootGuestName', 'guests']);
+        // La validación se hará en FormNavigation
         setCurrentStep(FormStep.THEME_PREFERENCES);
       } else if (currentStep === FormStep.THEME_PREFERENCES) {
+        // La validación se hará en FormNavigation
+        
         // Si estamos en el último invitado o ya hemos completado todos
         if (currentGuestIndex >= (rootInvitation?.invitations_amount || 0) - 1) {
           setCurrentStep(FormStep.CONFIRMATION);
@@ -75,7 +111,7 @@ export default function GuestForm() {
         }
       }
     } catch (error) {
-      console.error('Validation error:', error);
+      console.error('Navigation error:', error);
     }
   };
   
@@ -95,28 +131,103 @@ export default function GuestForm() {
   };
   
   // Manejar el envío del formulario
-  const handleSubmit = async (values: GuestFormValues) => {
+  const handleSubmit = async () => {
     setIsSubmitting(true);
     
     try {
-      // Aquí iría la lógica para enviar los datos a la API
-      console.log('Submitting form with values:', values);
+      // Validar el formulario completo
+      await form.validateFields();
       
-      // Simular una espera de la API
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Antes de enviar, verificar que todo es válido
+      const isValid = await validateCurrentStep(FormStep.CONFIRMATION);
       
-      // Redirigir o mostrar mensaje de éxito
-      console.log('Form submitted successfully!');
+      if (!isValid) {
+        message.error('Por favor completa toda la información requerida');
+        setIsSubmitting(false);
+        return;
+      }
+      
+      // Obtener los datos combinados de todos los formularios
+      const mergedValues = getMergedFormData();
+      
+      // Mostrar la estructura final en la consola
+      console.log('Form submission data:', mergedValues);
+      
+      // Verificar que tenemos el ID de la invitación raíz
+      if (!rootInvitation?.id) {
+        message.error('No se pudo obtener la información de la invitación');
+        setIsSubmitting(false);
+        return;
+      }
+      
+      // Insertar nuevos datos
+      const success = await GuestService.saveFormData(mergedValues, rootInvitation.id);
+      
+      if (success) {
+        message.success('¡Información registrada correctamente!');
+        
+        // Crear la URL con los parámetros necesarios
+        const redirectParams = new URLSearchParams();
+        
+        // Agregar el código de invitación codificado en base64
+        if (invitationCode) {
+          const encodedCode = Buffer.from(invitationCode).toString('base64');
+          redirectParams.append('code', encodedCode);
+        }
+        
+        // Construir URL final
+        const redirectUrl = `/thank-you${redirectParams.toString() ? `?${redirectParams.toString()}` : ''}`;
+        
+        // Redirigir a la página de agradecimiento después de un breve retraso
+        setTimeout(() => {
+          router.push(redirectUrl);
+        }, 2000);
+      } else {
+        message.error('Hubo un problema al registrar tu información. Por favor, inténtalo de nuevo.');
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
+      message.error('Error al enviar el formulario');
     } finally {
       setIsSubmitting(false);
     }
   };
   
+  // Renderizar notificación de respuesta existente
+  const renderExistingSubmissionAlert = () => {
+    if (existingSubmission && rootInvitation) {
+      // Crear la URL para redireccionar con el código de invitación
+      let redirectUrl = '/';
+      
+      // Agregar el código de invitación codificado en base64 si está disponible
+      if (invitationCode) {
+        const encodedCode = Buffer.from(invitationCode).toString('base64');
+        redirectUrl = `/?code=${encodedCode}`;
+      }
+      
+      return (
+        <Alert
+          message={`¡Gracias ${rootInvitation.name}!`}
+          description={
+            <div>
+              <p>Detectamos que ya has completado este formulario anteriormente. Agradecemos tu respuesta y nos emociona contar con tu presencia.</p>
+              <Button type="primary" onClick={() => router.push(redirectUrl)}>
+                Volver al inicio
+              </Button>
+            </div>
+          }
+          type="success"
+          showIcon
+          className="mb-6"
+        />
+      );
+    }
+    return null;
+  };
+  
   // Renderizar contenido según el paso actual
   const renderContent = () => {
-    if (loading) {
+    if (loading || checkingSubmission) {
       return <LoadingIndicator />;
     }
     
@@ -124,11 +235,19 @@ export default function GuestForm() {
       return <ErrorMessage />;
     }
     
+    // Si existe una respuesta previa, mostrar alerta
+    if (existingSubmission) {
+      return renderExistingSubmissionAlert();
+    }
+    
     switch (currentStep) {
       case FormStep.GUEST_INFO:
-        return <GuestInfoStep guestsCount={rootInvitation.invitations_amount} form={form} />;
+        return <GuestInfoStep 
+          guestsCount={rootInvitation.invitations_amount} 
+          form={form}
+        />;
       case FormStep.THEME_PREFERENCES:
-        return <ThemePreferencesStep />;
+        return <ThemePreferencesStep form={form} />;
       case FormStep.CONFIRMATION:
         return <ConfirmationStep form={form} />;
       default:
@@ -139,6 +258,9 @@ export default function GuestForm() {
   // Determinar si todos los invitados han completado sus preferencias
   const hasCompletedAllGuests = currentGuestIndex >= (rootInvitation?.invitations_amount || 0);
   
+  // No mostrar navegación si estamos mostrando la alerta de respuesta existente
+  const shouldShowNavigation = !existingSubmission;
+  
   return (
     <div className="py-10 px-4 min-h-screen">
       <div className="max-w-4xl mx-auto">
@@ -147,21 +269,21 @@ export default function GuestForm() {
         </Card>
         
         <Form 
-          form={form} 
-          layout="vertical" 
-          onFinish={handleSubmit}
+          form={form}
+          layout="vertical"
           requiredMark={false}
+          onFinish={handleSubmit}
           className="antd-wed-form"
         >
           {renderContent()}
-          {!loading && (
+          {!loading && !checkingSubmission && shouldShowNavigation && (
             <FormNavigation 
               currentStep={currentStep}
               prev={prev}
               next={next}
               submitting={isSubmitting}
               isSubmitStep={currentStep === FormStep.CONFIRMATION}
-              handleSubmit={() => form.submit()}
+              handleSubmit={handleSubmit}
               hasCompletedAllGuests={hasCompletedAllGuests}
               currentGuestIndex={currentGuestIndex}
             />

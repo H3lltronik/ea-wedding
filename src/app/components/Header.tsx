@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import WeddingLogo from '../icons/WeddingLogo'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 interface HeaderProps {
   className?: string;
@@ -12,6 +12,8 @@ interface HeaderProps {
 export const Header = ({ className = '', logoClassName = 'w-[80px] h-[80px]' }: HeaderProps) => {
   const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const originalCode = searchParams.get('code');
   
   // Ensure hydration
   useEffect(() => {
@@ -23,6 +25,8 @@ export const Header = ({ className = '', logoClassName = 'w-[80px] h-[80px]' }: 
   }
 
   const isFormPage = pathname === '/form';
+  const formLink = originalCode ? `/form?code=${originalCode}` : '/form';
+  const homeLink = originalCode ? `/?code=${originalCode}` : '/';
 
   return (
     <div 
@@ -33,7 +37,7 @@ export const Header = ({ className = '', logoClassName = 'w-[80px] h-[80px]' }: 
         {!isFormPage && (
           <div className="invisible">
             <Link 
-              href="/form" 
+              href={formLink} 
               className="bg-red-400 hover:bg-red-500 text-white font-medium py-2 px-4 rounded-full text-sm md:text-base transition-all duration-300 hover:shadow-md flex-shrink-0"
             >
               Confirmar asistencia
@@ -43,7 +47,7 @@ export const Header = ({ className = '', logoClassName = 'w-[80px] h-[80px]' }: 
       </div>
 
       <div className="flex justify-center">
-        <Link href="/" className="flex-shrink-0">
+        <Link href={homeLink} className="flex-shrink-0">
           <WeddingLogo className={`text-red-300 ${logoClassName}`} />
         </Link>
       </div>
@@ -51,7 +55,7 @@ export const Header = ({ className = '', logoClassName = 'w-[80px] h-[80px]' }: 
       <div className="flex-1 flex justify-end">
         {!isFormPage && (
           <Link 
-            href="/form" 
+            href={formLink} 
             className="bg-red-400 hover:bg-red-500 text-white font-medium py-2 px-4 rounded-full text-sm md:text-base transition-all duration-300 hover:shadow-md flex-shrink-0"
           >
             Confirmar asistencia

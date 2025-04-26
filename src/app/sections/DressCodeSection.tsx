@@ -2,10 +2,38 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface DressCodeSectionProps {
   className?: string;
 }
+
+// Harry Potter Icons
+const harryPotterIcons = [
+  { name: 'Sombrero de Mago', path: '/noun-wizard-hat-4420259.svg' },
+  { name: 'Nimbus 2000', path: '/noun-nimbus-2000-1419626.svg' },
+  { name: 'Reliquias de la Muerte', path: '/noun-deathly-hallows-2185219.svg' },
+  { name: 'Snitch Dorada', path: '/noun-golden-snitch-1419618.svg' },
+  { name: 'Harry Potter', path: '/noun-harry-potter-2185221.svg' },
+  { name: 'Giratiempo', path: '/noun-time-turner-3560060.svg' },
+  { name: 'Caldero', path: '/noun-cauldron-1419627.svg' },
+  { name: 'Búho', path: '/noun-owl-6865120.svg' },
+  { name: 'Carta de Hogwarts', path: '/noun-hogwarts-letter-2395701.svg' },
+  { name: 'Libros', path: '/noun-books-7198506.svg' },
+  { name: 'Varita', path: '/noun-umbridges-wand-965707.svg' },
+  { name: 'Poción', path: '/noun-potion-bottle-1223747.svg' },
+];
+
+// Star Wars Icons
+const starWarsIcons = [
+  { name: 'Sable de Luz', path: '/noun-light-saber-12457.svg' },
+  { name: 'Jedi', path: '/noun-jedi-2552433.svg' },
+  { name: 'Stormtrooper', path: '/noun-stormtrooper-316783.svg' },
+  { name: 'TIE Fighter', path: '/noun-tie-fighter-2202280.svg' },
+  { name: 'Estrella de la Muerte', path: '/noun-death-star-12458.svg' },
+  { name: 'C-3PO', path: '/noun-c3po-37513.svg' },
+  { name: 'Estación de Batalla', path: '/noun-space-battle-station-5289018.svg' },
+];
 
 export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
   // Variantes para animaciones
@@ -238,21 +266,6 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
                   Evita el color blanco, reservado para la novia.
                 </motion.div>
               </div>
-              <motion.div 
-                className="flex justify-center"
-                whileHover={{ y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <div className="w-48 h-48 rounded-full overflow-hidden bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center drop-shadow-lg">
-                  <svg className="w-24 h-24 text-red-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 16C9.8 16 8 14.2 8 12V4H16V12C16 14.2 14.2 16 12 16Z" fill="currentColor"/>
-                    <path d="M18.7 12.4C18.4 12.2 18.1 12.1 17.7 12.1C17.3 12.1 17 12.2 16.7 12.5C16.4 12.8 16.3 13.1 16.3 13.5H15.5C15.5 12.8 15.7 12.3 16.2 11.9C16.6 11.5 17.1 11.3 17.7 11.3C18.2 11.3 18.7 11.5 19.1 11.8C19.5 12.2 19.7 12.6 19.7 13.2C19.7 13.5 19.6 13.8 19.4 14.1C19.2 14.4 19 14.6 18.7 14.9L17.3 16.3H19.8V17.1H16.1V16.4L18.2 14.3C18.5 14 18.7 13.8 18.8 13.6C18.9 13.4 19 13.2 19 13C19 12.8 18.9 12.6 18.7 12.4Z" fill="currentColor"/>
-                    <path d="M7.8 16.7H5.4L5.1 17.8H4.3L6.3 12.3H6.9L9 17.8H8.1L7.8 16.7ZM5.6 16H7.5L6.6 13.4L5.6 16Z" fill="currentColor"/>
-                    <path d="M7 10.9L8.5 5.9H20.5L18.5 10.9" stroke="currentColor" strokeWidth="1.5"/>
-                    <path d="M10.2 16H13.8L16.5 21H7.5L10.2 16Z" fill="currentColor"/>
-                  </svg>
-                </div>
-              </motion.div>
             </div>
           </motion.div>
 
@@ -325,20 +338,6 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
                   La corbata es opcional, pero agrega un toque de elegancia.
                 </motion.div>
               </div>
-              <motion.div 
-                className="flex justify-center"
-                whileHover={{ y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <div className="w-48 h-48 rounded-full overflow-hidden bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center drop-shadow-lg">
-                  <svg className="w-24 h-24 text-red-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15 4.5C15 3.7 14.3 3 13.5 3H10.5C9.7 3 9 3.7 9 4.5V7H15V4.5Z" fill="currentColor"/>
-                    <path d="M8.7 7L5 8.6V13C5 14.7 6.3 16.2 8 16.6V21H16V16.6C17.7 16.1 19 14.7 19 13V8.6L15.3 7H8.7Z" fill="currentColor"/>
-                    <path d="M12 16C14.2 16 16 14.2 16 12V8H8V12C8 14.2 9.8 16 12 16Z" fill="white"/>
-                    <path d="M13 11.3V12.5C13 13.1 12.6 13.5 12 13.5C11.4 13.5 11 13.1 11 12.5V11C11 10.4 11.4 10 12 10C12.3 10 12.5 10.1 12.7 10.3L14.4 12H15.5L13.5 10C13.2 9.7 12.7 9.5 12 9.5C11.2 9.5 10.5 10.2 10.5 11V12.5C10.5 13.3 11.2 14 12 14C12.8 14 13.5 13.3 13.5 12.5V11.8H12V11.3H13Z" fill="currentColor"/>
-                  </svg>
-                </div>
-              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -376,39 +375,56 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
             ¡Nos encantaría ver tu creatividad!
           </p>
           
-          <div className="flex justify-center space-x-16 items-center relative z-10">
-            <motion.div 
-              className="flex flex-col items-center"
-              whileHover={{ scale: 1.1, y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <div className="w-20 h-20 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-full flex items-center justify-center mb-3 shadow-md">
-                <svg className="w-10 h-10 text-red-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M7 14L3 18L7 22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M17 14L21 18L17 22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M10 22L14 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M11.9999 8C13.6568 8 14.9999 6.65685 14.9999 5C14.9999 3.34315 13.6568 2 11.9999 2C10.3431 2 8.99994 3.34315 8.99994 5C8.99994 6.65685 10.3431 8 11.9999 8Z" fill="currentColor"/>
-                </svg>
+          <div className="grid grid-cols-2 gap-6 relative z-10">
+            <div>
+              <h4 className="text-xl font-medium text-red-400 mb-4">Harry Potter</h4>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {harryPotterIcons.slice(0, 6).map((icon, index) => (
+                  <motion.div 
+                    key={`hp-${index}`}
+                    className="flex flex-col items-center"
+                    whileHover={{ scale: 1.1, y: -5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <div className="w-16 h-16 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-full flex items-center justify-center mb-2 shadow-md p-3">
+                      <Image 
+                        src={icon.path} 
+                        alt={icon.name}
+                        width={40}
+                        height={40}
+                        className="w-10 h-10 object-contain"
+                      />
+                    </div>
+                    <span className="text-xs text-gray-700 font-medium text-center">{icon.name}</span>
+                  </motion.div>
+                ))}
               </div>
-              <span className="text-gray-700 font-medium">Harry Potter</span>
-            </motion.div>
+            </div>
             
-            <motion.div 
-              className="flex flex-col items-center"
-              whileHover={{ scale: 1.1, y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mb-3 shadow-md">
-                <svg className="w-10 h-10 text-red-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 18L19 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M9 11L15 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M15 11L9 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M12 7L12 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <circle cx="12" cy="7" r="2" fill="currentColor"/>
-                </svg>
+            <div>
+              <h4 className="text-xl font-medium text-red-400 mb-4">Star Wars</h4>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {starWarsIcons.slice(0, 6).map((icon, index) => (
+                  <motion.div 
+                    key={`sw-${index}`}
+                    className="flex flex-col items-center"
+                    whileHover={{ scale: 1.1, y: -5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mb-2 shadow-md p-3">
+                      <Image 
+                        src={icon.path} 
+                        alt={icon.name}
+                        width={40}
+                        height={40}
+                        className="w-10 h-10 object-contain"
+                      />
+                    </div>
+                    <span className="text-xs text-gray-700 font-medium text-center">{icon.name}</span>
+                  </motion.div>
+                ))}
               </div>
-              <span className="text-gray-700 font-medium">Star Wars</span>
-            </motion.div>
+            </div>
           </div>
         </motion.div>
 

@@ -1,37 +1,35 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { message } from 'antd';
 import { createClient } from '@/utils/supabase/client';
 import { RootInvitation } from '@/app/types/supabase';
+import { useInvitationCode } from '@/app/hooks/useInvitationCode';
 
 export function useRootInvitation() {
   const [rootInvitation, setRootInvitation] = useState<RootInvitation | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  const searchParams = useSearchParams();
+  const { invitationCode, loading: codeLoading, error: codeError } = useInvitationCode();
   const router = useRouter();
   
   useEffect(() => {
     const fetchInvitation = async () => {
+      if (codeLoading) return;
+      
+      if (codeError || !invitationCode) {
+        setError(codeError || 'Código de invitación no válido');
+        setLoading(false);
+        return;
+      }
+      
       try {
-        const code = searchParams.get('code');
-        if (!code) {
-          setError('Código de invitación no encontrado');
-          message.error('Código de invitación no encontrado');
-          router.push('/invitation-error');
-          return;
-        }
-        
-        // Decode the base64 invitation code
-        const decodedInvitationCode = Buffer.from(code, 'base64').toString('utf-8');
-        
         // Create Supabase client and fetch invitation details
         const supabase = await createClient();
         const { data, error: supabaseError } = await supabase
           .from('root_invitations')
           .select('*')
-          .eq('id', decodedInvitationCode)
+          .eq('id', invitationCode)
           .single();
           
         if (supabaseError || !data) {
@@ -54,11 +52,11 @@ export function useRootInvitation() {
     };
     
     fetchInvitation();
-  }, [searchParams, router]);
+  }, [invitationCode, codeLoading, codeError, router]);
 
   return {
     rootInvitation,
-    loading,
-    error
+    loading: loading || codeLoading,
+    error: error || codeError
   };
 } 

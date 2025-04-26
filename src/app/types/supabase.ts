@@ -5,11 +5,26 @@ export type RootInvitation = {
   created_at?: string;
 }
 
+export type GuestPreference = {
+  id: string;
+  guest_id: string;
+  preferences: {
+    theme: string;
+    house?: string;
+    jediSith?: string;
+    age?: number;
+  };
+  created_at?: string;
+}
+
 export type Guest = {
   id: string;
   root_invitation_id: string;
   name: string;
-  age: number;
+  age?: number;
+  is_root?: boolean;
+  attending?: boolean;
+  preferences?: GuestPreference[];
   created_at?: string;
 }
 

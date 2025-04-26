@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input, InputNumber, Card } from 'antd';
 import { motion } from 'framer-motion';
 import { guestFormRules } from '../../../forms/guestFormSchema';
@@ -12,26 +12,38 @@ type GuestInfoStepProps = {
 
 export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({ 
   guestsCount,
-  form 
+  form
 }) => {
-  const { setGuests } = useFormContext();
+  const { setGuests, setGuestInfoForm } = useFormContext();
   
-  // Actualizar el contexto cuando cambian los valores del formulario
-  const handleFormChange = () => {
+  // Register form with context
+  useEffect(() => {
+    setGuestInfoForm(form);
+    
+    // Cleanup on unmount
+    return () => {
+      setGuestInfoForm(null);
+    };
+  }, [form, setGuestInfoForm]);
+  
+  // Manejar cambios en el formulario y actualizar el contexto
+  const onFormValuesChange = () => {
     const formValues = form.getFieldsValue();
     if (formValues.guests) {
       setGuests(prevGuests => {
         const newGuests = [...prevGuests];
+        
         formValues.guests.forEach((guest, index) => {
-          if (guest && guest.name) {
-            // Mantener las preferencias de tema existentes
+          if (index < newGuests.length) {
+            // Mantener las preferencias de tema existentes y actualizar solo nombre y edad
             newGuests[index] = {
-              ...newGuests[index] || {},
-              name: guest.name,
-              age: guest.age || 0,
+              ...newGuests[index],
+              name: guest?.name || newGuests[index].name,
+              age: guest?.age !== undefined ? guest.age : newGuests[index].age
             };
           }
         });
+        
         return newGuests;
       });
     }
@@ -45,7 +57,7 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
       transition={{ duration: 0.5 }}
       className="max-w-3xl mx-auto p-6"
     >
-      <h2 className="text-2xl font-parisienne text-center mb-8 text-red-400">Información de invitados</h2>
+      <h2 className="text-4xl font-parisienne text-center mb-8 text-red-400">Información de invitados</h2>
       
       <Form.Item 
         name="rootGuestName" 
@@ -58,7 +70,6 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
           className="bg-pink-50 border-red-200 focus:border-red-400" 
           placeholder="Ej. Andrea García"
           disabled
-          onChange={handleFormChange}
         />
       </Form.Item>
       
@@ -79,12 +90,13 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
                   label="Nombre" 
                   rules={guestFormRules.guestName}
                   className="flex-1 min-w-[250px]"
+                  validateTrigger={['onChange', 'onBlur']}
                 >
                   <Input 
                     placeholder="Nombre completo" 
                     className="bg-pink-50 border-red-200"
                     disabled={index === 0} // Disable editing for the main guest
-                    onChange={handleFormChange}
+                    onChange={() => onFormValuesChange()}
                   />
                 </Form.Item>
                 
@@ -93,13 +105,14 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
                   label="Edad" 
                   rules={guestFormRules.guestAge}
                   className="w-[120px]"
+                  validateTrigger={['onChange', 'onBlur']}
                 >
                   <InputNumber 
                     min={0} 
                     max={120} 
                     placeholder="Edad" 
                     className="bg-pink-50 border-red-200 w-full"
-                    onChange={() => handleFormChange()} 
+                    onChange={() => onFormValuesChange()}
                   />
                 </Form.Item>
               </div>
