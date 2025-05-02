@@ -2,7 +2,6 @@
 import { useEffect, useState, useRef, Suspense } from "react";
 import { Header } from "./components/Header";
 import { HeroSection } from "./sections/HeroSection";
-import { GallerySection } from "./sections/GallerySection";
 import { DressCodeSection } from "./sections/DressCodeSection";
 import { EventDetailsSection } from "./sections/EventDetailsSection";
 import { NewGallerySection } from "./sections/NewGallerySection";
