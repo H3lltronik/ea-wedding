@@ -44,14 +44,31 @@ export const GallerySection = ({ animate = true, index = 0, onAnimationComplete,
     // Create balanced images with different grid sizes
     const imageItems: PhotoItem[] = [];
     
-    // First add our custom images with prominent sizes
+    // First add placeholder lorem picsum images for the left side
+    for (let i = 0; i < 8; i++) {
+      const isWide = Math.random() > 0.8;
+      const isTall = Math.random() > 0.8;
+      
+      imageItems.push({
+        id: i + 1,
+        height: isTall ? 300 : 200,
+        width: 400,
+        gridRow: isTall ? 2 : 1,
+        gridColumn: isWide ? 2 : 1,
+        src: `https://picsum.photos/id/${(i % 80) + 20}/400/${isTall ? 300 : 200}`,
+        alt: `Momento especial ${i + 1}`
+      });
+    }
+    
+    // Then add our custom images with prominent sizes in the center
+    const startId = imageItems.length + 1;
     customImages.forEach((img, i) => {
       // Make our images larger to stand out
       const isWide = i % 2 === 0;
       const isTall = i % 3 === 0;
       
       imageItems.push({
-        id: i + 1,
+        id: startId + i,
         height: isTall ? 350 : 250,
         width: isWide ? 500 : 400,
         gridRow: isTall ? 2 : 1, // Tall images span 2 rows
@@ -61,19 +78,20 @@ export const GallerySection = ({ animate = true, index = 0, onAnimationComplete,
       });
     });
     
-    // Then add lorem picsum images to fill out the grid
-    for (let i = 0; i < 15; i++) {
+    // Then add more lorem picsum images for the right side
+    const rightStartId = imageItems.length + 1;
+    for (let i = 0; i < 7; i++) {
       const isWide = Math.random() > 0.8;
       const isTall = Math.random() > 0.8;
       
       imageItems.push({
-        id: i + customImages.length + 1,
+        id: rightStartId + i,
         height: isTall ? 300 : 200,
         width: 400,
         gridRow: isTall ? 2 : 1,
         gridColumn: isWide ? 2 : 1,
-        src: `https://picsum.photos/id/${(i % 80) + 20}/400/${isTall ? 300 : 200}`,
-        alt: `Momento especial ${i + customImages.length + 1}`
+        src: `https://picsum.photos/id/${(i % 80) + 50}/400/${isTall ? 300 : 200}`,
+        alt: `Momento especial ${rightStartId + i}`
       });
     }
     
@@ -114,7 +132,7 @@ export const GallerySection = ({ animate = true, index = 0, onAnimationComplete,
           
           {/* Gallery container with grid layout */}
           <div 
-            className="gallery-grid w-[130vw] md:w-[140vw] lg:w-[160vw] max-w-none mx-auto -translate-x-[15vw] md:-translate-x-[20vw] lg:-translate-x-[30vw] hide-scrollbar"
+            className="gallery-grid w-[130vw] md:w-[140vw] lg:w-[160vw] max-w-none mx-auto -translate-x-[15vw] md:-translate-x-[20vw] lg:-translate-x-[30vw] hide-scrollbar overflow-hidden"
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
@@ -129,7 +147,9 @@ export const GallerySection = ({ animate = true, index = 0, onAnimationComplete,
             {photos.map((photo) => (
               <div 
                 key={photo.id} 
-                className="rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02]"
+                className={`rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] ${
+                  photo.id > 8 && photo.id <= 8 + 5 ? 'custom-image z-10' : ''
+                }`}
                 style={{ 
                   gridColumn: `span ${photo.gridColumn}`,
                   gridRow: `span ${photo.gridRow}`,

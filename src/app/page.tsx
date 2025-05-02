@@ -5,6 +5,7 @@ import { HeroSection } from "./sections/HeroSection";
 import { GallerySection } from "./sections/GallerySection";
 import { DressCodeSection } from "./sections/DressCodeSection";
 import { EventDetailsSection } from "./sections/EventDetailsSection";
+import { NewGallerySection } from "./sections/NewGallerySection";
 
 // Fallback component for the Header while it's loading
 const HeaderFallback = () => (
@@ -91,7 +92,7 @@ export default function Home() {
         {/* Segunda sección - Galería */}
         <div className="min-h-screen">
           {/* Contenido de la galería */}
-          <GallerySection
+          <NewGallerySection
             animate={animationStage >= 1}
             index={1}
             onAnimationComplete={() => animationStage === 1 && goToNextStage()}
