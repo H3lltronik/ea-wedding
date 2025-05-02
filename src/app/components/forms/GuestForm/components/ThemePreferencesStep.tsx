@@ -55,9 +55,6 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
   
   // Manejar cambios en valores del formulario
   const onFormValuesChange = (changedValues: Partial<FormValues>) => {
-    // No permitir cambios si el invitado es fijo
-    if (isCurrentGuestFixed) return;
-    
     if ('themePreference' in changedValues && changedValues.themePreference !== undefined) {
       // Actualizamos el contexto con el nuevo valor de preferencia
       updateGuestTheme(currentGuestIndex, changedValues.themePreference);
@@ -234,7 +231,7 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
           {isCurrentGuestFixed && (
             <Alert
               message="Este invitado es fijo"
-              description="La información de este invitado no puede ser modificada."
+              description="Solo el nombre no puede ser modificado, pero puedes cambiar sus preferencias de tema."
               type="info"
               showIcon
               className="mb-4"
@@ -253,7 +250,6 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
               value={currentGuest?.themePreference || null}
               className="flex flex-wrap gap-4"
               onChange={e => onFormValuesChange({ themePreference: e.target.value })}
-              disabled={isCurrentGuestFixed}
             >
               <Radio.Button value={ThemePreference.STAR_WARS} className="p-2 flex items-center">Star Wars</Radio.Button>
               <Radio.Button value={ThemePreference.HARRY_POTTER} className="p-2 flex items-center">Harry Potter</Radio.Button>
@@ -282,7 +278,6 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
                     options={hogwartsHouseOptions}
                     value={houseValue}
                     onChange={(value) => onFormValuesChange({ house: value as HogwartsHouse })}
-                    disabled={isCurrentGuestFixed}
                   />
                 </Form.Item>
               </motion.div>
@@ -307,7 +302,6 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
                     options={starWarsSideOptions}
                     value={jediSithValue}
                     onChange={(value) => onFormValuesChange({ jediSith: value as StarWarsSide })}
-                    disabled={isCurrentGuestFixed}
                   />
                 </Form.Item>
               </motion.div>
