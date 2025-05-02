@@ -1,10 +1,15 @@
 'use client'
 
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { Header } from '../components/Header';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
+
+// Fallback component for the Header while it's loading
+const HeaderFallback = () => (
+  <div className="h-[80px] w-full bg-white bg-opacity-90 backdrop-blur-sm"></div>
+);
 
 export default function SuccessPage() {
   useEffect(() => {
@@ -77,7 +82,9 @@ export default function SuccessPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-50 overflow-hidden">
-      <Header className="sticky top-0 left-0 right-0 z-50" />
+      <Suspense fallback={<HeaderFallback />}>
+        <Header className="sticky top-0 left-0 right-0 z-50" />
+      </Suspense>
       
       <motion.div 
         className="container mx-auto px-4 py-24 flex flex-col items-center justify-center min-h-[calc(100vh-80px)] relative"

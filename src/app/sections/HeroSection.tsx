@@ -2,6 +2,8 @@
 import React, { useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import HeroLogoAndNames from '../components/HeroLogoAndNames'
+import Bg from '@/assets/propuesta/hero.jpg'
+import Image from 'next/image'
 
 interface HeroSectionProps {
   animate?: boolean;
@@ -39,7 +41,7 @@ export const HeroSection = ({ animate = true, index = 0, onAnimationComplete, cl
       onAnimationComplete={() => onAnimationComplete?.()}
     >
       <div className="absolute inset-0 overflow-hidden">
-        <video 
+        {/* <video 
           ref={videoRef}
           className="absolute w-full h-full object-cover"
           src="/videos/video.mp4" 
@@ -48,7 +50,8 @@ export const HeroSection = ({ animate = true, index = 0, onAnimationComplete, cl
           playsInline
           loop
           preload="auto"
-        />
+        /> */}
+        <Image src={Bg} alt="Background" className="absolute w-full h-full object-cover" />
       </div>
       <div className="absolute inset-0 bg-black opacity-50" />
       
@@ -59,6 +62,7 @@ export const HeroSection = ({ animate = true, index = 0, onAnimationComplete, cl
           className="text-white"
         />
       </div>
+      <div className="absolute left-0 right-0 bottom-0 h-[100px] bg-gradient-to-t from-[#fff8e8] to-transparent z-10"></div>
     </motion.section>
   )
 }

@@ -58,7 +58,7 @@ export const Header = ({ className = '', logoClassName = 'w-[80px] h-[80px]' }: 
             href={formLink} 
             className="bg-red-400 hover:bg-red-500 text-white font-medium py-2 px-4 rounded-full text-sm md:text-base transition-all duration-300 hover:shadow-md flex-shrink-0"
           >
-            Confirmar asistencia
+            Confirmar <br className='block md:hidden' /> asistencia
           </Link>
         )}
       </div>

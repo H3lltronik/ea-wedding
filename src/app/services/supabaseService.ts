@@ -18,19 +18,20 @@ export const GuestService = {
    */
   async checkExistingSubmission(rootInvitationId: string): Promise<{ exists: boolean }> {
     try {
-      // Buscar invitados asociados a esta invitación
-      const { data: existingGuests, error } = await supabase
-        .from('guests')
-        .select('id')
-        .eq('root_invitation_id', rootInvitationId);
+      // Verificar si la invitación ha sido respondida usando la columna has_answered
+      const { data, error } = await supabase
+        .from('root_invitations')
+        .select('has_answered')
+        .eq('id', rootInvitationId)
+        .single();
       
       if (error) {
-        console.error('Error al verificar invitados existentes:', error);
+        console.error('Error al verificar invitación respondida:', error);
         return { exists: false };
       }
       
-      // Si hay invitados, la invitación ya fue respondida
-      const exists = existingGuests && existingGuests.length > 0;
+      // Si has_answered es true, la invitación ya fue respondida
+      const exists = data && data.has_answered === true;
       
       return { exists };
     } catch (error) {
@@ -96,6 +97,17 @@ export const GuestService = {
       
       // Esperar a que todas las inserciones terminen
       await Promise.all(guestInsertPromises);
+      
+      // 3. Actualizar el campo has_answered a true en la invitación raíz
+      const { error: updateError } = await supabase
+        .from('root_invitations')
+        .update({ has_answered: true })
+        .eq('id', rootInvitationId);
+      
+      if (updateError) {
+        console.error('Error al actualizar estado de invitación:', updateError);
+        throw updateError;
+      }
       
       console.log('All data saved successfully');
       return true;

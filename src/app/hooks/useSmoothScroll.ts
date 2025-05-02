@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, RefObject } from 'react';
+import { useState, useEffect, useRef, RefObject, useCallback } from 'react';
 
 interface UseSmoothScrollOptions {
   containerRef: RefObject<HTMLDivElement | null>;
@@ -19,7 +19,7 @@ const useSmoothScroll = ({
   const shouldHandleScroll = useRef<boolean>(true);
 
   // Función para hacer scroll suave a una sección específica
-  const smoothScrollToSection = (index: number, scrollDuration: number = duration) => {
+  const smoothScrollToSection = useCallback((index: number, scrollDuration: number = duration) => {
     if (!containerRef.current) return;
     
     const container = containerRef.current;
@@ -50,7 +50,7 @@ const useSmoothScroll = ({
     };
     
     requestAnimationFrame(animateScroll);
-  };
+  }, [containerRef, duration, setIsScrolling]);
 
   // Función para navegar a una sección específica al hacer clic en los indicadores
   const scrollToSection = (index: number) => {
@@ -125,7 +125,7 @@ const useSmoothScroll = ({
       container.removeEventListener('scroll', handleScroll);
       container.removeEventListener('wheel', handleWheel);
     };
-  }, [scrollBlocked, activeSection, isScrolling, sections.length]);
+  }, [scrollBlocked, activeSection, isScrolling, sections.length, containerRef, smoothScrollToSection]);
 
   return {
     activeSection,

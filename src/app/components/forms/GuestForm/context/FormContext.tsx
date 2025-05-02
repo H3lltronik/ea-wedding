@@ -9,6 +9,7 @@ export type GuestInfo = {
   themePreference: ThemePreference | null;
   house: HogwartsHouse | null;
   jediSith: StarWarsSide | null;
+  is_fixed?: boolean;
 };
 
 export type FormContextType = {

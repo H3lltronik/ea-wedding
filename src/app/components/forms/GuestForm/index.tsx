@@ -30,8 +30,8 @@ export default function GuestForm() {
   const [existingSubmission, setExistingSubmission] = useState<boolean>(false);
   const [checkingSubmission, setCheckingSubmission] = useState<boolean>(true);
   
-  // Get invitation data
-  const { rootInvitation, loading, error } = useRootInvitation();
+  // Get invitation data and existing guests
+  const { rootInvitation, existingGuests, loading, error } = useRootInvitation();
   
   // Get context state
   const { 
@@ -47,7 +47,7 @@ export default function GuestForm() {
   // Estado del formulario (paso actual)
   const [currentStep, setCurrentStep] = useState<FormStep>(FormStep.GUEST_INFO);
   
-  // Verificar si ya existe una respuesta para esta invitación
+  // Verificar si ya existe una respuesta para esta invitación usando has_answered
   useEffect(() => {
     const checkExistingSubmission = async () => {
       if (rootInvitation?.id) {
@@ -73,25 +73,42 @@ export default function GuestForm() {
     if (rootInvitation && !existingSubmission) {
       const guestsCount = rootInvitation.invitations_amount;
       
-      // Inicializar el formulario con los valores iniciales
-      form.setFieldsValue({
-        rootGuestName: rootInvitation.name,
-        guests: Array(guestsCount).fill(null).map((_, i) => ({
-          name: i === 0 ? rootInvitation.name : '',
-          age: undefined,
-        })),
+      // Map existing guests into a lookup table by index (if any)
+      const existingGuestsMap = new Map();
+      existingGuests.forEach(guest => {
+        // Determine index by is_root or other criteria
+        const index = guest.is_root ? 0 : existingGuests.indexOf(guest);
+        if (index >= 0 && index < guestsCount) {
+          existingGuestsMap.set(index, guest);
+        }
       });
       
-      // Inicializar guests en el contexto
-      setGuests(Array(guestsCount).fill(null).map((_, i) => ({
-        name: i === 0 ? rootInvitation.name : '',
-        age: 0,
-        themePreference: null,
-        house: null,
-        jediSith: null
-      })));
+      // Initialize form with initial values considering existing guests
+      form.setFieldsValue({
+        rootGuestName: rootInvitation.name,
+        guests: Array(guestsCount).fill(null).map((_, i) => {
+          const existingGuest = existingGuestsMap.get(i);
+          return {
+            name: existingGuest ? existingGuest.name : (i === 0 ? rootInvitation.name : ''),
+            age: existingGuest?.age || undefined,
+          };
+        }),
+      });
+      
+      // Initialize guests in context
+      setGuests(Array(guestsCount).fill(null).map((_, i) => {
+        const existingGuest = existingGuestsMap.get(i);
+        return {
+          name: existingGuest ? existingGuest.name : (i === 0 ? rootInvitation.name : ''),
+          age: existingGuest?.age || 0,
+          themePreference: null,
+          house: null,
+          jediSith: null,
+          is_fixed: existingGuest?.is_fixed || (i === 0), // Root guest is always fixed
+        };
+      }));
     }
-  }, [rootInvitation, form, setGuests, existingSubmission]);
+  }, [rootInvitation, existingGuests, form, setGuests, existingSubmission]);
   
   // Navegar al siguiente paso
   const next = async () => {

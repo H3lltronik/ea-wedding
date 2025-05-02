@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { message } from 'antd';
 import { createClient } from '@/utils/supabase/client';
-import { RootInvitation } from '@/app/types/supabase';
+import { RootInvitation, Guest } from '@/app/types/supabase';
 import { useInvitationCode } from '@/app/hooks/useInvitationCode';
 
 export function useRootInvitation() {
   const [rootInvitation, setRootInvitation] = useState<RootInvitation | null>(null);
+  const [existingGuests, setExistingGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
@@ -41,6 +42,16 @@ export function useRootInvitation() {
         
         // Set the invitation details
         setRootInvitation(data);
+        
+        // Fetch existing guests for this invitation
+        const { data: guestsData, error: guestsError } = await supabase
+          .from('guests')
+          .select('*')
+          .eq('root_invitation_id', invitationCode);
+          
+        if (!guestsError && guestsData) {
+          setExistingGuests(guestsData);
+        }
       } catch (err) {
         console.error('Error fetching invitation:', err);
         setError('Error al cargar la invitación');
@@ -56,6 +67,7 @@ export function useRootInvitation() {
 
   return {
     rootInvitation,
+    existingGuests,
     loading: loading || codeLoading,
     error: error || codeError
   };

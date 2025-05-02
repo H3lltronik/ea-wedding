@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:qr": "cd scripts/QRGenerator && npm install && npm start"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",
@@ -20,6 +21,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-h5-audio-player": "^3.10.0-rc.1",
+    "react-icons": "^5.5.0",
     "react-intersection-observer": "^9.16.0",
     "tailwind-merge": "^3.2.0",
     "windups": "^1.2.2"
@@ -27,6 +29,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

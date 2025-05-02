@@ -1,0 +1,144 @@
+;NOMBRE;APELLIDOS;;;EMAIL;TELÉFONO;CELULAR;GRUPO;INVITADO;CONFIRMADO;MENÚ;DIRECCIÓN;C.P.;POBLACIÓN;ESTADO;MESA;SEXO
+;Andrea Valenzuela;;;;andreap9814@gmail.com;;;Novios;OK;CONFIRMADO;;;;;;Principal;Mujer
+;Esau Gonzalez;;;;andreap9814@gmail.com;;;Novios;OK;CONFIRMADO;;;;;;Principal;Hombre
+;;;;;;;;;;;;;;;;;
+1;Nicolas;Gonzalez;;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 1;Hombre
+;;Monse;Ramirez;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 1;Mujer
+;;Megan;Ramirez;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 1;Mujer
+;;Boleto extra;;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 1;
+;;Jesus;Gonzalez;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 1;Hombre
+1;Veronica;Soto;;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 10;Mujer
+;;Memo;Gonzalez;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 10;Hombre
+;;Azul;Gonzalez;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 10;Mujer
+;;Teresa;Ramirez;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 10;Mujer
+1;Mario;Soto;;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 10;Hombre
+;;Boleto Extra;;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 10;Hombre
+1;Miriam;Soto;;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 10;Mujer
+;;Boleto Extra;;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 10;Hombre
+;;Cesar;;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 10;Hombre
+;;Omar;;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 10;Hombre
+1;Teresa;Soto;;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 10;Mujer
+;;Boleto Extra;;;;;;Familia Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 10;Hombre
+;;Vicky;;;;;;Familia Esau Gonzalez;;PENDIENTE;Niños;;;;;Mesa Niños;Mujer
+1;Paty;Valenzuela;;;;;;Familia Andrea Valenzuela;;CONFIRMADO;Adultos;;;;;Mesa 1;Mujer
+;;Emma;;;;;;Familia Andrea Valenzuela;;CONFIRMADO;Niños;;;;;Mesa Niños;Mujer
+1;Ernesto;Valenzuela;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 1;Hombre
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 1;
+1;Ruben;Valenzuela;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 1;Hombre
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 1;Mujer
+1;Karla;Valenzuela;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 1;Mujer
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 1;Hombre
+1;Lety;Correa;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 3;Mujer
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 3;Hombre
+1;Agustín;Ortiz;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 1;Hombre
+1;Teresa;Olvera;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 3;Mujer
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 3;Hombre
+1;Monica;Cordova;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 3;Mujer
+1;Chivis;;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 3;Mujer
+;;Carlitos;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 3;Hombre
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 3;Mujer
+1;Angelica;Martinez;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Mujer
+1;Priscila;Hernandez;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Mujer
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Hombre
+1;Paulina;Hernandez;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Mujer
+;;Victor;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Hombre
+1;Sandra;Hernandez;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Mujer
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Mujer
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Mujer
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Hombre
+1;Victor;Hernandez;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Hombre
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Mujer
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Mujer
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Mujer
+1;Silvia;Martinez;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 6;Mujer
+1;Claudia;;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Mujer
+;;Chacon;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Hombre
+;;Andres;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Hombre
+1;Michel;;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 6;Mujer
+;;Josue;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 6;Hombre
+;;Daniela;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Niños;;;;;Mesa Niños;Mujer
+1;Lidia;Zamudio;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 6;Mujer
+;;Maru;Martinez;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 6;Mujer
+;;Lidia;Martinez;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 6;Mujer
+1;Omar;Zamudio;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 6;Hombre
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 6;Mujer
+1;Edgar;Zamudio;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 6;Hombre
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 6;Mujer
+1;Jorge;Zamudio;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 6;Hombre
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 6;Mujer
+1;Ricardo;;;;;;;Amigos comunes;;CONFIRMADO;Adultos;;;;;Mesa 7;Hombre
+;;Boleto Extra;Hermano;;;;;Amigos comunes;;PENDIENTE;Adultos;;;;;Mesa 7;Hombre
+;;Boleto Extra;Mamá;;;;;Amigos comunes;;PENDIENTE;Adultos;;;;;Mesa 7;Mujer
+;;Boleto Extra;Papá;;;;;Amigos comunes;;PENDIENTE;Adultos;;;;;Mesa 7;Hombre
+;;Boleto Extra;;;;;;Amigos comunes;;PENDIENTE;Adultos;;;;;Mesa 7;Hombre
+1;Diana;;;;;;;Amigos comunes;;CONFIRMADO;Adultos;;;;;Mesa 7;Mujer
+;;Boleto Extra;Hermana;;;;;Amigos comunes;;PENDIENTE;Adultos;;;;;Mesa 7;Mujer
+;;Boleto Extra;Novio hermana;;;;;Amigos comunes;;PENDIENTE;Adultos;;;;;Mesa 7;Hombre
+;;Boleto Extra;Mamá;;;;;Amigos comunes;;PENDIENTE;Adultos;;;;;Mesa 7;Mujer
+;;Boleto Extra;Papá;;;;;Amigos comunes;;PENDIENTE;Adultos;;;;;Mesa 7;Hombre
+1;Gustavo;;;;;;;Amigos comunes;;PENDIENTE;Adultos;;;;;Mesa 7;Hombre
+;;Boleto Extra;;;;;;Amigos comunes;;PENDIENTE;Adultos;;;;;Mesa 7;Mujer
+1;Susana;;;;;;;Amigos Andrea Valenzuela;;CONFIRMADO;Adultos;;;;;Mesa 1;Mujer
+;;Boleto Extra;;;;;;Amigos Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 1;Hombre
+1;Evelyn;;;;;;;Amigos Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 8;Mujer
+;;Boleto Extra;;;;;;Amigos Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 8;Hombre
+1;Bruno;;;;;;;Amigos Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 8;Hombre
+;;Boleto Extra;;;;;;Amigos Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 8;
+1;Emilio;;;;;;;Amigos Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 8;Hombre
+;;Boleto Extra;;;;;;Amigos Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 8;
+1;Fernando;;;;;;;Amigos Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 8;Hombre
+;;Boleto Extra;;;;;;Amigos Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 8;
+1;Toño;;;;;;;Amigos Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 8;Hombre
+;;Boleto Extra;;;;;;Amigos Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 8;
+1;Luzette;;;;;;;Amigos comunes;;PENDIENTE;Adultos;;;;;Mesa 8;Mujer
+;;Irene;;;;;;Amigos comunes;;PENDIENTE;Niños;;;;;Mesa Niños;Mujer
+1;Maura;;;;;;;Amigos Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 1;Mujer
+;;Boleto Extra;;;;;;Amigos Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 1;
+1;Rocio;;;;;;;Amigos Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 1;Mujer
+;;Gael;;;;;;Amigos Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa Niños;Hombre
+1;Alberto;;;;;;;Trabajo Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 9;Hombre
+;;Boleto Extra;;;;;;Trabajo Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 9;Mujer
+1;Paulo;Ibarra;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 4;Hombre
+;;Boleto Extra;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 4;Mujer
+;;Hija de Paulo;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Niños;;;;;Mesa Niños;Mujer
+1;Jose;;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 4;Hombre
+;;Boleto Extra;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 4;
+1;Gabriel;Guerrero;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 4;Hombre
+1;Isela;;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 4;Mujer
+1;Armando;;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 4;Hombre
+;;Boleto Extra;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 4;Hombre
+1;Isabel;;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 4;Mujer
+1;Yady;;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 4;Mujer
+1;Sergio;Guerrero;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 5;Hombre
+;;Boleto Extra;Sergio;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 5;Mujer
+1;Sandra;Aello;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 5;Mujer
+;;Boleto extra;Sandra;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 5;Hombre
+1;Alonso;Chavez;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 5;Hombre
+;;Boleto Extra;Alonso;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 5;Mujer
+1;Anali;Ruiz;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 5;Mujer
+;;Boleto Extra;Anali;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 5;Hombre
+1;Luis;Aguilar;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 5;Hombre
+;;Boleto Extra;Luis;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 5;Mujer
+1;Brissa;Cardenas;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 5;Mujer
+;;Mauricio;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 5;Hombre
+1;Maggie;;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 3;Mujer
+;;Boleto Extra;Maggie;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 3;Hombre
+1;Elvia;Reynoso;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 3;Mujer
+;;Boleto Extra;Fernanda;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 3;Mujer
+1;Adan;;;;;;;Amigos comunes;;PENDIENTE;Adultos;;;;;Mesa 2;Hombre
+;;Lilith;;;;;;Amigos comunes;;PENDIENTE;Adultos;;;;;Mesa 2;Mujer
+1;Chris;;;;;;;Amigos Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 9;Hombre
+1;Caro;;;;;;;Amigos Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Mujer
+;;Boleto Extra;;;;;;Amigos Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 2;Hombre
+1;Humberto;;;;;;;Trabajo Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 9;Hombre
+;;Boleto Extra;;;;;;Trabajo Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 9;
+1;Javier;;;;;;;Trabajo Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 9;Hombre
+1;Paty Ofna;;;;;;;Trabajo Esau Gonzalez;;PENDIENTE;Adultos;;;;;Mesa 9;Mujer
+1;Jessy;;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 1;Mujer
+;;Boleto Extra;;;;;;Familia Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 1;Hombre
+1;Gilari;;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 4;Mujer
+;;Rigoberto;;;;;;Trabajo Andrea Valenzuela;;PENDIENTE;Adultos;;;;;Mesa 4;Hombre
+;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;
+62;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;

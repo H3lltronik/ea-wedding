@@ -3,6 +3,7 @@ export type RootInvitation = {
   name: string;
   invitations_amount: number;
   created_at?: string;
+  has_answered?: boolean;
 }
 
 export type GuestPreference = {
@@ -26,6 +27,7 @@ export type Guest = {
   attending?: boolean;
   preferences?: GuestPreference[];
   created_at?: string;
+  is_fixed?: boolean;
 }
 
 export type ThemePreference = {

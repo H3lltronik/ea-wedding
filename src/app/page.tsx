@@ -1,9 +1,15 @@
 'use client'
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { Header } from "./components/Header";
 import { HeroSection } from "./sections/HeroSection";
 import { GallerySection } from "./sections/GallerySection";
 import { DressCodeSection } from "./sections/DressCodeSection";
+import { EventDetailsSection } from "./sections/EventDetailsSection";
+
+// Fallback component for the Header while it's loading
+const HeaderFallback = () => (
+  <div className="fixed top-0 left-0 right-0 z-50 h-[80px] w-full bg-white bg-opacity-90 backdrop-blur-sm transition-all duration-300"></div>
+);
 
 export default function Home() {
   const [animationStage, setAnimationStage] = useState(0);
@@ -65,11 +71,13 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Header único y fijo para toda la aplicación */}
-      <Header 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          headerVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
-        }`} 
-      />
+      <Suspense fallback={<HeaderFallback />}>
+        <Header 
+          className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+            headerVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+          }`} 
+        />
+      </Suspense>
       
       <div ref={containerRef}>
         {/* Primera sección - Hero con animación de logo y nombres */}
@@ -82,9 +90,6 @@ export default function Home() {
 
         {/* Segunda sección - Galería */}
         <div className="min-h-screen">
-          {/* Espacio para compensar el header fijo cuando es visible */}
-          <div className="h-[80px]"></div>
-          
           {/* Contenido de la galería */}
           <GallerySection
             animate={animationStage >= 1}
@@ -93,11 +98,14 @@ export default function Home() {
           />
         </div>
 
-        {/* Tercera sección - Dress Code */}
+        {/* Tercera sección - Detalles del Evento */}
         <div className="min-h-screen">
-          {/* Espacio para compensar el header fijo */}
-          <div className="h-[80px]"></div>
-          
+          {/* Contenido de los detalles del evento */}
+          <EventDetailsSection />
+        </div>
+        
+        {/* Cuarta sección - Dress Code */}
+        <div className="min-h-screen">
           {/* Contenido del Dress Code */}
           <DressCodeSection />
         </div>

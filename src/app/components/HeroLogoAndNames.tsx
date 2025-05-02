@@ -25,7 +25,7 @@ export const HeroLogoAndNames = ({
 
   return (
     <div className={`flex flex-col items-center justify-center gap-6 ${className}`}>
-      <WeddingLogo className="w-[400px] h-[400px] text-white" />
+      <WeddingLogo className="w-[200px] h-[200px] md:w-[400px] md:h-[400px] text-white" />
       <h1 className="text-4xl md:text-9xl font-parisienne text-center">
         <WindupChildren onFinished={onAnimationComplete}>
           <Pace ms={100}>

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Form, Radio, Card, Progress } from 'antd';
+import { Form, Radio, Card, Progress, Alert } from 'antd';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { ThemePreference, HogwartsHouse, StarWarsSide } from '../constants/enums';
@@ -50,8 +50,14 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
     }
   }, [currentGuest, form, currentGuestIndex]);
   
+  // Verificar si el invitado actual es fijo
+  const isCurrentGuestFixed = currentGuest?.is_fixed || false;
+  
   // Manejar cambios en valores del formulario
   const onFormValuesChange = (changedValues: Partial<FormValues>) => {
+    // No permitir cambios si el invitado es fijo
+    if (isCurrentGuestFixed) return;
+    
     if ('themePreference' in changedValues && changedValues.themePreference !== undefined) {
       // Actualizamos el contexto con el nuevo valor de preferencia
       updateGuestTheme(currentGuestIndex, changedValues.themePreference);
@@ -221,10 +227,20 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
 
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <Card
-          title={`Preferencias de ${guestName}`}
+          title={`Preferencias de ${guestName}${isCurrentGuestFixed ? ' (Fijo)' : ''}`}
           className="border-red-100 shadow-sm"
           styles={{ header: { background: 'rgba(254, 226, 226, 0.5)' } }}
         >
+          {isCurrentGuestFixed && (
+            <Alert
+              message="Este invitado es fijo"
+              description="La información de este invitado no puede ser modificada."
+              type="info"
+              showIcon
+              className="mb-4"
+            />
+          )}
+          
           <Form.Item
             name="themePreference"
             label="¿Qué prefieres?"
@@ -237,6 +253,7 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
               value={currentGuest?.themePreference || null}
               className="flex flex-wrap gap-4"
               onChange={e => onFormValuesChange({ themePreference: e.target.value })}
+              disabled={isCurrentGuestFixed}
             >
               <Radio.Button value={ThemePreference.STAR_WARS} className="p-2 flex items-center">Star Wars</Radio.Button>
               <Radio.Button value={ThemePreference.HARRY_POTTER} className="p-2 flex items-center">Harry Potter</Radio.Button>
@@ -246,58 +263,57 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
           </Form.Item>
 
           <AnimatePresence>
-            {(currentGuest?.themePreference === ThemePreference.HARRY_POTTER || currentGuest?.themePreference === ThemePreference.BOTH) && (
+            {(currentGuest?.themePreference === ThemePreference.HARRY_POTTER || 
+             currentGuest?.themePreference === ThemePreference.BOTH) && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
-                className="overflow-hidden mb-6"
               >
                 <Form.Item
                   name="house"
-                  label="¿De qué casa eres?"
+                  label="Elige tu casa de Hogwarts"
                   rules={guestFormRules.house}
-                  validateStatus={currentGuest.house ? undefined : "error"}
-                  help={!currentGuest.house ? "Debes seleccionar una casa" : undefined}
+                  validateStatus={!currentGuest?.house ? "error" : undefined}
+                  help={!currentGuest?.house ? "Este campo es obligatorio" : undefined}
                 >
                   <ImageRadioGroup
                     options={hogwartsHouseOptions}
                     value={houseValue}
-                    imageHeight={130}
-                    onChange={value => onFormValuesChange({ house: value as HogwartsHouse })}
+                    onChange={(value) => onFormValuesChange({ house: value as HogwartsHouse })}
+                    disabled={isCurrentGuestFixed}
                   />
                 </Form.Item>
               </motion.div>
             )}
-
-            {(currentGuest?.themePreference === ThemePreference.STAR_WARS || currentGuest?.themePreference === ThemePreference.BOTH) && (
+            
+            {(currentGuest?.themePreference === ThemePreference.STAR_WARS || 
+             currentGuest?.themePreference === ThemePreference.BOTH) && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
-                className="overflow-hidden"
               >
                 <Form.Item
                   name="jediSith"
-                  label="¿Qué tipo de personaje eres?"
+                  label="¿Jedi o Sith?"
                   rules={guestFormRules.jediSith}
-                  validateStatus={currentGuest.jediSith ? undefined : "error"}
-                  help={!currentGuest.jediSith ? "Debes seleccionar un tipo de personaje" : undefined}
+                  validateStatus={!currentGuest?.jediSith ? "error" : undefined}
+                  help={!currentGuest?.jediSith ? "Este campo es obligatorio" : undefined}
                 >
                   <ImageRadioGroup
                     options={starWarsSideOptions}
                     value={jediSithValue}
-                    imageHeight={130}
-                    onChange={value => onFormValuesChange({ jediSith: value as StarWarsSide })}
+                    onChange={(value) => onFormValuesChange({ jediSith: value as StarWarsSide })}
+                    disabled={isCurrentGuestFixed}
                   />
                 </Form.Item>
               </motion.div>
             )}
           </AnimatePresence>
-
-          {/* Animaciones según preferencia */}
+          
           {currentGuest?.themePreference && currentGuest?.themePreference !== ThemePreference.NONE && (
             <motion.div
               initial={{ opacity: 0 }}
@@ -327,10 +343,10 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
                   </div>
                 </div>
               )}
-
+              
               {currentGuest?.themePreference === ThemePreference.BOTH && (
                 <div className="text-center">
-                  <p className="text-lg mb-2">¡La magia y la fuerza están contigo!</p>
+                  <p className="text-lg mb-2">¡Que la magia de la fuerza te acompañe!</p>
                   <div className="flex justify-center space-x-4">
                     <div className="animate-pulse w-12 h-12 flex items-center justify-center">
                       <div className="w-6 h-6 bg-red-400 rounded-full shadow-lg shadow-red-300"></div>

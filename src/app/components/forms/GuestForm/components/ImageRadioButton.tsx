@@ -9,6 +9,7 @@ type ImageRadioButtonProps = {
   isSelected: boolean;
   imageHeight?: number;
   onClick: (value: string) => void;
+  disabled?: boolean;
 };
 
 export const ImageRadioButton: React.FC<ImageRadioButtonProps> = ({
@@ -17,21 +18,29 @@ export const ImageRadioButton: React.FC<ImageRadioButtonProps> = ({
   imageSrc,
   isSelected,
   imageHeight = 120,
-  onClick
+  onClick,
+  disabled = false
 }) => {
+  const handleClick = () => {
+    if (!disabled) {
+      onClick(value);
+    }
+  };
+  
   return (
     <div 
-      onClick={() => onClick(value)}
+      onClick={handleClick}
       className={`
-        relative cursor-pointer rounded-lg overflow-hidden
+        relative rounded-lg overflow-hidden
         transition-all duration-300 border-2
         ${isSelected ? 'border-red-400 shadow-lg' : 'border-gray-200'}
-        hover:border-red-200 hover:shadow-md
+        ${disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:border-red-200 hover:shadow-md'}
       `}
     >
       <Radio 
         value={value} 
         checked={isSelected}
+        disabled={disabled}
         className="sr-only"
       />
       

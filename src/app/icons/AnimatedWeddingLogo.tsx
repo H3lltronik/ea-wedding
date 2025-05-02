@@ -1,19 +1,21 @@
 import * as React from "react"
-import { SVGProps, useEffect } from "react"
+import { SVGProps } from "react"
+import './animated-wedding-logo.css'
 
 const AnimatedWeddingLogo = (props: SVGProps<SVGSVGElement>) => {
-  useEffect(() => {
-    // Lazy load the CSS file
-    const loadCSS = async () => {
-      try {
-        await import("./animated-wedding-logo.css");
-      } catch (err) {
-        console.error("Failed to load animation styles");
-      }
-    };
+  // useEffect(() => {
+  //   // Lazy load the CSS file
+  //   const loadCSS = async () => {
+  //     try {
+  //       await import("./animated-wedding-logo.css");
+  //     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  //     } catch (err) {
+  //       console.error("Failed to load animation styles");
+  //     }
+  //   };
     
-    loadCSS();
-  }, [])
+  //   loadCSS();
+  // }, [])
 
   return (
     <svg

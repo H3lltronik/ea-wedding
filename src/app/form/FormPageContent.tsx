@@ -1,12 +1,17 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { Header } from '../components/Header';
 import GuestForm from '../components/forms/GuestForm';
 import { motion } from 'framer-motion';
 import { ThemeBackground } from '../components/forms/GuestForm/components/ThemeBackground';
 import { ThemeAudioPlayer } from '../components/forms/GuestForm/components/ThemeAudioPlayer';
 import { Card } from 'antd';
+
+// Fallback component for the Header while it's loading
+const HeaderFallback = () => (
+  <div className="h-[80px] w-full sticky top-0 left-0 right-0 z-50 bg-white bg-opacity-90 backdrop-blur-sm"></div>
+);
 
 export default function FormPageContent() {
   const [isLoading, setIsLoading] = useState(true);
@@ -60,7 +65,9 @@ export default function FormPageContent() {
   return (
     <ThemeBackground>
       <div className="min-h-screen">
-        <Header className="sticky top-0 left-0 right-0 z-50" />
+        <Suspense fallback={<HeaderFallback />}>
+          <Header className="sticky top-0 left-0 right-0 z-50" />
+        </Suspense>
         
         {isLoading ? (
           <div className="h-screen flex items-center justify-center">

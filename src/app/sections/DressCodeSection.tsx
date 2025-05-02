@@ -231,7 +231,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
                   <h4 className="text-xl font-medium text-gray-800">Elegancia y Sofisticación</h4>
                 </div>
                 <p className="text-lg mb-6 text-gray-700">
-                  Sugerimos un <span className="font-semibold italic">vestido formal</span> en tonos pastel o colores vibrantes que reflejen la alegría de este día tan especial.
+                  Sugerimos un <span className="font-semibold italic">vestido formal</span> que refleje la elegancia de esta ocasión tan especial.
                 </p>
                 <div className="space-y-4 text-gray-700 mb-6 pl-2">
                   <motion.div 
@@ -248,7 +248,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
                     transition={{ type: "spring", stiffness: 400 }}
                   >
                     <span className="h-2 w-2 rounded-full bg-red-300 mr-3"></span>
-                    <span>Zapatos cómodos para bailar</span>
+                    <span>Accesorios de noche</span>
                   </motion.div>
                   <motion.div 
                     className="flex items-center"
@@ -256,14 +256,14 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
                     transition={{ type: "spring", stiffness: 400 }}
                   >
                     <span className="h-2 w-2 rounded-full bg-red-300 mr-3"></span>
-                    <span>Accesorios que complementen tu outfit</span>
+                    <span>Zapatos cómodos para bailar</span>
                   </motion.div>
                 </div>
                 <motion.div 
                   className="text-sm text-gray-500 italic bg-red-50 p-3 rounded-lg"
                   whileHover={{ scale: 1.02 }}
                 >
-                  Evita el color blanco, reservado para la novia.
+                  No está permitido usar color blanco, beige, plateado, azul marino o colores muy claros, pues están reservados para la novia y las damas.
                 </motion.div>
               </div>
             </div>
@@ -335,7 +335,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
                   className="text-sm text-gray-500 italic bg-red-50 p-3 rounded-lg"
                   whileHover={{ scale: 1.02 }}
                 >
-                  La corbata es opcional, pero agrega un toque de elegancia.
+                  La corbata es opcional, pero agrega un toque de elegancia. No esta permitido usar color gris pues esta reservado para el novio.
                 </motion.div>
               </div>
             </div>
