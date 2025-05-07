@@ -5,6 +5,7 @@ import { HeroSection } from "./sections/HeroSection";
 import { DressCodeSection } from "./sections/DressCodeSection";
 import { EventDetailsSection } from "./sections/EventDetailsSection";
 import { NewGallerySection } from "./sections/NewGallerySection";
+import { GiftsTableSection } from "./sections/GiftsTableSection";
 
 // Fallback component for the Header while it's loading
 const HeaderFallback = () => (
@@ -108,6 +109,12 @@ export default function Home() {
         <div className="min-h-screen">
           {/* Contenido del Dress Code */}
           <DressCodeSection />
+        </div>
+
+        {/* Quinta sección - Mesa de Regalos */}
+        <div className="min-h-screen">
+          {/* Contenido de la Mesa de Regalos */}
+          <GiftsTableSection />
         </div>
 
         {/* Footer */}

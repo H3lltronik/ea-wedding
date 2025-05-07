@@ -93,12 +93,12 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
         
         <div className="space-y-6">
           {Array(guestsCount).fill(null).map((_, index) => {
-            const isFixed = isGuestFixed(index);
+            // const isFixed = isGuestFixed(index);
             
             return (
               <Card 
                 key={index}
-                title={`Invitado ${index + 1}${index === 0 ? ' (Principal)' : ''}${isFixed ? ' (Fijo)' : ''}`}
+                title={`Invitado ${index + 1}`}
                 className="border-red-100 shadow-sm"
                 styles={{ header: { background: 'rgba(254, 226, 226, 0.5)' } }}
               >
@@ -113,7 +113,6 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
                     <Input 
                       placeholder="Nombre completo" 
                       className="bg-pink-50 border-red-200"
-                      disabled={isFixed} // Disable editing for fixed guests
                       onChange={() => onFormValuesChange()}
                     />
                   </Form.Item>
