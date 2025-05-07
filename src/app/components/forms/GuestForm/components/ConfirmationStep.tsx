@@ -57,7 +57,7 @@ export const ConfirmationStep: React.FC<ConfirmationStepProps> = ({ form }) => {
       transition={{ duration: 0.5 }}
       className="max-w-3xl mx-auto p-6"
     >
-      <h2 className="text-4xl font-parisienne text-center mb-8 text-red-400">Confirmación</h2>
+      <h2 className="text-4xl font-parisienne text-center mb-8 text-[#b48a3f]">Confirmación</h2>
       
       <Alert
         message="Por favor confirma que los datos son correctos"
@@ -75,8 +75,8 @@ export const ConfirmationStep: React.FC<ConfirmationStepProps> = ({ form }) => {
             <Card 
               key={index}
               title={`${guest.name} ${index === 0 ? '(Principal)' : ''}`}
-              className="border-red-100 shadow-sm"
-              styles={{ header: { background: 'rgba(254, 226, 226, 0.5)' } }}
+              className="border-amber-100 shadow-sm"
+              styles={{ header: { background: 'rgba(251, 243, 219, 0.5)' } }}
             >
               <div className="space-y-2">
                 <p><span className="font-medium">Edad:</span> {guest.age !== undefined && guest.age !== null ? `${guest.age} años` : 'No especificada'}</p>
@@ -94,7 +94,7 @@ export const ConfirmationStep: React.FC<ConfirmationStepProps> = ({ form }) => {
           ))}
         </div>
         
-        <div className="bg-pink-50 p-4 rounded-lg mb-6">
+        <div className="bg-amber-50 p-4 rounded-lg mb-6">
           <h4 className="font-semibold mb-2">Información importante</h4>
           <p className="text-sm mb-2">Al confirmar, aceptas las siguientes condiciones:</p>
           <ul className="list-disc pl-5 text-sm">

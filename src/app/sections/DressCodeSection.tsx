@@ -91,7 +91,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
   };
 
   return (
-    <section className={`min-h-screen py-24 bg-gradient-to-b from-pink-50 via-red-50 to-pink-50 overflow-hidden ${className}`}>
+    <section className={`min-h-screen py-24 bg-gradient-to-b from-[#fffbf0] to-[#fff8e8] overflow-hidden ${className}`}>
       {/* Elemento decorativo SVG flotante */}
       <motion.div
         className="absolute top-20 right-5 opacity-20 -z-10 hidden lg:block"
@@ -103,7 +103,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
           <motion.path
             d="M50,10 C70,10 90,30 90,50 C90,70 70,90 50,90 C30,90 10,70 10,50 C10,30 30,10 50,10 Z"
             fill="none"
-            stroke="#FFB6C1"
+            stroke="#b48a3f"
             strokeWidth="1"
             variants={drawVariants}
             initial="hidden"
@@ -112,7 +112,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
           <motion.path
             d="M50,20 C65,20 80,35 80,50 C80,65 65,80 50,80 C35,80 20,65 20,50 C20,35 35,20 50,20 Z"
             fill="none"
-            stroke="#FDA4AF"
+            stroke="#d3b978"
             strokeWidth="0.5"
             variants={drawVariants}
             initial="hidden"
@@ -141,7 +141,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
         <svg width="150" height="150" viewBox="0 0 100 100">
           <motion.path
             d="M20,50 L80,50 M50,20 L50,80"
-            stroke="#FDA4AF"
+            stroke="#b48a3f"
             strokeWidth="1"
             variants={drawVariants}
             initial="hidden"
@@ -152,7 +152,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
             cy="50"
             r="30"
             fill="none"
-            stroke="#FFB6C1"
+            stroke="#d3b978"
             strokeWidth="0.8"
             variants={drawVariants}
             initial="hidden"
@@ -176,7 +176,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
             <motion.path
               d="M0,10 C40,0 60,20 100,10 C140,0 160,20 200,10"
               fill="none"
-              stroke="#FDA4AF"
+              stroke="#b48a3f"
               strokeWidth="1"
               variants={drawVariants}
               initial="hidden"
@@ -186,7 +186,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
         </motion.div>
 
         <motion.h2 
-          className="text-5xl md:text-6xl text-center font-parisienne text-red-400 mb-4"
+          className="text-5xl md:text-6xl text-center font-parisienne text-[#b48a3f] mb-4"
           variants={itemVariants}
         >
           Código de Vestimenta
@@ -205,7 +205,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
             variants={itemVariants}
           >
             <motion.div 
-              className="absolute -top-10 -left-10 w-20 h-20 text-red-200 opacity-20"
+              className="absolute -top-10 -left-10 w-20 h-20 text-amber-200 opacity-20"
               initial={{ rotate: 0, scale: 0.8 }}
               animate={{ rotate: 360, scale: 1 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -216,14 +216,14 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
             </motion.div>
 
             <div className="relative z-10">
-              <h3 className="text-2xl md:text-3xl font-parisienne text-red-400 mb-6">Para Ellas</h3>
+              <h3 className="text-2xl md:text-3xl font-parisienne text-[#b48a3f] mb-6">Para Ellas</h3>
               <div className="bg-white rounded-xl shadow-md p-8 mb-8 transform hover:shadow-xl transition-all duration-300">
                 <div className="flex items-center mb-6">
                   <motion.div 
-                    className="w-12 h-12 flex-shrink-0 bg-red-50 rounded-full flex items-center justify-center mr-4"
+                    className="w-12 h-12 flex-shrink-0 bg-amber-50 rounded-full flex items-center justify-center mr-4"
                     whileHover={{ scale: 1.1, rotate: 5 }}
                   >
-                    <svg className="w-6 h-6 text-red-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="w-6 h-6 text-[#b48a3f]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M16 4C16 2.9 15.1 2 14 2H10C8.9 2 8 2.9 8 4V5H16V4Z" fill="currentColor"/>
                       <path d="M20 6H4C2.9 6 2 6.9 2 8V20C2 21.1 2.9 22 4 22H20C21.1 22 22 21.1 22 20V8C22 6.9 21.1 6 20 6ZM12 17C9.2 17 7 14.8 7 12C7 9.2 9.2 7 12 7C14.8 7 17 9.2 17 12C17 14.8 14.8 17 12 17Z" fill="currentColor"/>
                     </svg>
@@ -239,7 +239,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
                     whileHover={{ x: 5 }}
                     transition={{ type: "spring", stiffness: 400 }}
                   >
-                    <span className="h-2 w-2 rounded-full bg-red-300 mr-3"></span>
+                    <span className="h-2 w-2 rounded-full bg-amber-300 mr-3"></span>
                     <span>Vestido cocktail o largo</span>
                   </motion.div>
                   <motion.div 
@@ -247,7 +247,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
                     whileHover={{ x: 5 }}
                     transition={{ type: "spring", stiffness: 400 }}
                   >
-                    <span className="h-2 w-2 rounded-full bg-red-300 mr-3"></span>
+                    <span className="h-2 w-2 rounded-full bg-amber-300 mr-3"></span>
                     <span>Accesorios de noche</span>
                   </motion.div>
                   <motion.div 
@@ -255,12 +255,12 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
                     whileHover={{ x: 5 }}
                     transition={{ type: "spring", stiffness: 400 }}
                   >
-                    <span className="h-2 w-2 rounded-full bg-red-300 mr-3"></span>
+                    <span className="h-2 w-2 rounded-full bg-amber-300 mr-3"></span>
                     <span>Zapatos cómodos para bailar</span>
                   </motion.div>
                 </div>
                 <motion.div 
-                  className="text-sm text-gray-500 italic bg-red-50 p-3 rounded-lg"
+                  className="text-sm text-gray-500 italic bg-amber-50 p-3 rounded-lg"
                   whileHover={{ scale: 1.02 }}
                 >
                   No está permitido usar color blanco, beige, plateado, azul marino o colores muy claros, pues están reservados para la novia y las damas.
@@ -274,7 +274,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
             variants={itemVariants}
           >
             <motion.div 
-              className="absolute -top-10 -right-10 w-20 h-20 text-red-200 opacity-20"
+              className="absolute -top-10 -right-10 w-20 h-20 text-amber-200 opacity-20"
               initial={{ rotate: 0, scale: 0.8 }}
               animate={{ rotate: -360, scale: 1 }}
               transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
@@ -285,14 +285,14 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
             </motion.div>
 
             <div className="relative z-10">
-              <h3 className="text-2xl md:text-3xl font-parisienne text-red-400 mb-6">Para Ellos</h3>
+              <h3 className="text-2xl md:text-3xl font-parisienne text-[#b48a3f] mb-6">Para Ellos</h3>
               <div className="bg-white rounded-xl shadow-md p-8 mb-8 transform hover:shadow-xl transition-all duration-300">
                 <div className="flex items-center mb-6">
                   <motion.div 
-                    className="w-12 h-12 flex-shrink-0 bg-red-50 rounded-full flex items-center justify-center mr-4"
+                    className="w-12 h-12 flex-shrink-0 bg-amber-50 rounded-full flex items-center justify-center mr-4"
                     whileHover={{ scale: 1.1, rotate: -5 }}
                   >
-                    <svg className="w-6 h-6 text-red-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="w-6 h-6 text-[#b48a3f]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M12 14C11.7 14 11.5 13.8 11.5 13.5V9.5C11.5 9.2 11.7 9 12 9C12.3 9 12.5 9.2 12.5 9.5V13.5C12.5 13.8 12.3 14 12 14Z" fill="currentColor"/>
                       <path d="M10.3 15H13.7L15 19H9L10.3 15Z" fill="currentColor"/>
                       <path d="M14.5 6C14.5 8 12 10 12 10C12 10 9.5 8 9.5 6C9.5 4.9 10.6 4 12 4C13.4 4 14.5 4.9 14.5 6Z" fill="currentColor"/>
@@ -311,7 +311,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
                     whileHover={{ x: 5 }}
                     transition={{ type: "spring", stiffness: 400 }}
                   >
-                    <span className="h-2 w-2 rounded-full bg-red-300 mr-3"></span>
+                    <span className="h-2 w-2 rounded-full bg-amber-300 mr-3"></span>
                     <span>Traje oscuro o en tonos neutros</span>
                   </motion.div>
                   <motion.div 
@@ -319,7 +319,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
                     whileHover={{ x: 5 }}
                     transition={{ type: "spring", stiffness: 400 }}
                   >
-                    <span className="h-2 w-2 rounded-full bg-red-300 mr-3"></span>
+                    <span className="h-2 w-2 rounded-full bg-amber-300 mr-3"></span>
                     <span>Camisa de vestir</span>
                   </motion.div>
                   <motion.div 
@@ -327,12 +327,12 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
                     whileHover={{ x: 5 }}
                     transition={{ type: "spring", stiffness: 400 }}
                   >
-                    <span className="h-2 w-2 rounded-full bg-red-300 mr-3"></span>
+                    <span className="h-2 w-2 rounded-full bg-amber-300 mr-3"></span>
                     <span>Zapatos formales</span>
                   </motion.div>
                 </div>
                 <motion.div 
-                  className="text-sm text-gray-500 italic bg-red-50 p-3 rounded-lg"
+                  className="text-sm text-gray-500 italic bg-amber-50 p-3 rounded-lg"
                   whileHover={{ scale: 1.02 }}
                 >
                   La corbata es opcional, pero agrega un toque de elegancia. No esta permitido usar color gris pues esta reservado para el novio.
@@ -354,7 +354,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
           >
             <svg viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="40" stroke="currentColor" strokeWidth="20" fill="none"/>
+              <circle cx="50" cy="50" r="40" stroke="#b48a3f" strokeWidth="20" fill="none"/>
             </svg>
           </motion.div>
           
@@ -365,11 +365,11 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
           >
             <svg viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="40" stroke="currentColor" strokeWidth="20" fill="none"/>
+              <circle cx="50" cy="50" r="40" stroke="#b48a3f" strokeWidth="20" fill="none"/>
             </svg>
           </motion.div>
 
-          <h3 className="text-2xl font-semibold text-red-400 mb-4 relative z-10">¡Toque Temático!</h3>
+          <h3 className="text-2xl font-semibold text-[#b48a3f] mb-4 relative z-10">¡Toque Temático!</h3>
           <p className="text-lg mb-8 text-gray-700 relative z-10 max-w-xl mx-auto">
             Si lo deseas, puedes agregar un pequeño detalle temático de Star Wars o Harry Potter a tu outfit.
             ¡Nos encantaría ver tu creatividad!
@@ -377,7 +377,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
           
           <div className="grid grid-cols-2 gap-6 relative z-10">
             <div>
-              <h4 className="text-xl font-medium text-red-400 mb-4">Harry Potter</h4>
+              <h4 className="text-xl font-medium text-[#b48a3f] mb-4">Harry Potter</h4>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {harryPotterIcons.slice(0, 6).map((icon, index) => (
                   <motion.div 
@@ -386,7 +386,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
                     whileHover={{ scale: 1.1, y: -5 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <div className="w-16 h-16 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-full flex items-center justify-center mb-2 shadow-md p-3">
+                    <div className="w-16 h-16 bg-gradient-to-br from-amber-50 to-amber-100 rounded-full flex items-center justify-center mb-2 shadow-md p-3">
                       <Image 
                         src={icon.path} 
                         alt={icon.name}
@@ -402,7 +402,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
             </div>
             
             <div>
-              <h4 className="text-xl font-medium text-red-400 mb-4">Star Wars</h4>
+              <h4 className="text-xl font-medium text-[#b48a3f] mb-4">Star Wars</h4>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {starWarsIcons.slice(0, 6).map((icon, index) => (
                   <motion.div 
@@ -411,7 +411,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
                     whileHover={{ scale: 1.1, y: -5 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mb-2 shadow-md p-3">
+                    <div className="w-16 h-16 bg-gradient-to-br from-amber-50 to-amber-100 rounded-full flex items-center justify-center mb-2 shadow-md p-3">
                       <Image 
                         src={icon.path} 
                         alt={icon.name}
@@ -436,7 +436,7 @@ export const DressCodeSection = ({ className = '' }: DressCodeSectionProps) => {
             <motion.path
               d="M0,10 C40,20 60,0 100,10 C140,20 160,0 200,10"
               fill="none"
-              stroke="#FDA4AF"
+              stroke="#b48a3f"
               strokeWidth="1"
               variants={drawVariants}
               initial="hidden"

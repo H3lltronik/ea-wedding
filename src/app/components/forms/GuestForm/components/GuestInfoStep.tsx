@@ -52,7 +52,8 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
     }
   };
 
-  // Find fixed guests 
+  // Find fixed guests - this function is kept for future use but currently not used
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const isGuestFixed = (index: number): boolean => {
     // Check if the guest is marked as fixed in context
     if (guests[index]?.is_fixed) return true;
@@ -72,7 +73,7 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
       transition={{ duration: 0.5 }}
       className="max-w-3xl mx-auto p-6"
     >
-      <h2 className="text-4xl font-parisienne text-center mb-8 text-red-400">Información de invitados</h2>
+      <h2 className="text-4xl font-parisienne text-center mb-8 text-[#b48a3f]">Información de invitados</h2>
       
       <Form.Item 
         name="rootGuestName" 
@@ -82,7 +83,7 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
       >
         <Input 
           size="large" 
-          className="bg-pink-50 border-red-200 focus:border-red-400" 
+          className="bg-amber-50 border-amber-200 focus:border-[#b48a3f]" 
           placeholder="Ej. Andrea García"
           disabled
         />
@@ -99,8 +100,8 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
               <Card 
                 key={index}
                 title={`Invitado ${index + 1}`}
-                className="border-red-100 shadow-sm"
-                styles={{ header: { background: 'rgba(254, 226, 226, 0.5)' } }}
+                className="border-amber-100 shadow-sm"
+                styles={{ header: { background: 'rgba(251, 243, 219, 0.5)' } }}
               >
                 <div className="flex flex-wrap gap-4">
                   <Form.Item 
@@ -112,7 +113,7 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
                   >
                     <Input 
                       placeholder="Nombre completo" 
-                      className="bg-pink-50 border-red-200"
+                      className="bg-amber-50 border-amber-200"
                       onChange={() => onFormValuesChange()}
                     />
                   </Form.Item>
@@ -128,7 +129,7 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
                       min={0} 
                       max={120} 
                       placeholder="Edad" 
-                      className="bg-pink-50 border-red-200 w-full"
+                      className="bg-amber-50 border-amber-200 w-full"
                       onChange={() => onFormValuesChange()}
                     />
                   </Form.Item>

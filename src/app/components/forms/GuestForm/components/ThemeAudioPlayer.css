@@ -1,9 +1,9 @@
 /* Estilos personalizados para el reproductor de audio */
 .theme-audio-player {
-  --rhap-theme-color: #f87171;
-  --rhap-bar-color: #fee2e2;
+  --rhap-theme-color: #b48a3f;
+  --rhap-bar-color: #f5e7c5;
   --rhap-background-color: transparent;
-  --rhap-button-color: #f87171;
+  --rhap-button-color: #b48a3f;
   --rhap-font-family: sans-serif;
   --rhap-border-radius: 8px;
 }
@@ -87,7 +87,7 @@
 }
 
 .theme-audio-player .rhap_button-clear:hover {
-  color: #ef4444;
+  color: #8d6a32;
 }
 
 .theme-audio-player .rhap_container:hover .rhap_progress-indicator {
@@ -111,7 +111,7 @@
   }
   
   .theme-audio-player .rhap_button-clear {
-    color: #f87171;
+    color: #b48a3f;
   }
   
   .theme-audio-player .rhap_time {

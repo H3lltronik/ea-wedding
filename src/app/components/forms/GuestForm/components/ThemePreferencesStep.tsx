@@ -127,7 +127,7 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
         transition={{ duration: 0.5 }}
         className="max-w-3xl mx-auto p-6"
       >
-        <h2 className="text-2xl font-parisienne text-center mb-8 text-red-400">¡Temas seleccionados!</h2>
+        <h2 className="text-2xl font-parisienne text-center mb-8 text-[#b48a3f]">¡Temas seleccionados!</h2>
 
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h3 className="text-lg font-semibold mb-4 text-gray-700">
@@ -137,7 +137,7 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
           <div className="space-y-4 mb-8">
             {guests.map((guest, index) => {
               return (
-                <div key={index} className="p-4 border border-red-100 rounded-md">
+                <div key={index} className="p-4 border border-amber-100 rounded-md">
                   <p className="font-semibold mb-2">{guest.name || `Invitado ${index + 1}`}</p>
 
                   <div className="flex flex-col gap-3">
@@ -210,14 +210,14 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
       className="max-w-3xl mx-auto p-6"
     >
       <Card className="!mb-8">
-        <h2 className="text-2xl font-parisienne text-center mb-4 text-red-400">Temática de la boda</h2>
+        <h2 className="text-2xl font-parisienne text-center mb-4 text-[#b48a3f]">Temática de la boda</h2>
 
         <div className="">
           <Progress
             percent={progress.percentage}
             format={() => `${progress.current + 1}/${progress.total}`}
             status="active"
-            strokeColor={{ from: '#fecaca', to: '#f87171' }}
+            strokeColor={{ from: '#f5e7c5', to: '#b48a3f' }}
           />
         </div>
       </Card>
@@ -225,8 +225,8 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <Card
           title={`Preferencias de ${guestName}${isCurrentGuestFixed ? ' (Fijo)' : ''}`}
-          className="border-red-100 shadow-sm"
-          styles={{ header: { background: 'rgba(254, 226, 226, 0.5)' } }}
+          className="border-amber-100 shadow-sm"
+          styles={{ header: { background: 'rgba(251, 243, 219, 0.5)' } }}
         >
           {isCurrentGuestFixed && (
             <Alert
@@ -314,14 +314,14 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
-              className="mt-8 p-4 rounded-lg bg-pink-50"
+              className="mt-8 p-4 rounded-lg bg-amber-50"
             >
               {currentGuest?.themePreference === ThemePreference.STAR_WARS && (
                 <div className="text-center">
                   <p className="text-lg mb-2">¡Que la fuerza te acompañe!</p>
                   <div className="flex justify-center">
                     <div className="animate-pulse w-16 h-16 flex items-center justify-center">
-                      <div className="w-8 h-8 bg-red-400 rounded-full shadow-lg shadow-red-300"></div>
+                      <div className="w-8 h-8 bg-[#b48a3f] rounded-full shadow-lg shadow-amber-300"></div>
                     </div>
                   </div>
                 </div>
@@ -332,7 +332,7 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
                   <p className="text-lg mb-2">¡Lumos Maxima!</p>
                   <div className="flex justify-center">
                     <div className="animate-bounce w-16 h-16 flex items-center justify-center">
-                      <div className="w-8 h-8 bg-yellow-400 rounded-full shadow-lg shadow-yellow-300"></div>
+                      <div className="w-8 h-8 bg-[#b48a3f] rounded-full shadow-lg shadow-amber-300"></div>
                     </div>
                   </div>
                 </div>
@@ -343,16 +343,22 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
                   <p className="text-lg mb-2">¡Que la magia de la fuerza te acompañe!</p>
                   <div className="flex justify-center space-x-4">
                     <div className="animate-pulse w-12 h-12 flex items-center justify-center">
-                      <div className="w-6 h-6 bg-red-400 rounded-full shadow-lg shadow-red-300"></div>
+                      <div className="w-6 h-6 bg-[#b48a3f] rounded-full shadow-lg shadow-amber-300"></div>
                     </div>
                     <div className="animate-bounce w-12 h-12 flex items-center justify-center">
-                      <div className="w-6 h-6 bg-yellow-400 rounded-full shadow-lg shadow-yellow-300"></div>
+                      <div className="w-6 h-6 bg-[#b48a3f] rounded-full shadow-lg shadow-amber-300"></div>
                     </div>
                   </div>
                 </div>
               )}
             </motion.div>
           )}
+
+          <div className="mt-8 p-4 rounded-lg bg-amber-50">
+            <div className="flex items-center gap-3 mb-2">
+              {/* Content for this section */}
+            </div>
+          </div>
         </Card>
       </div>
     </motion.div>

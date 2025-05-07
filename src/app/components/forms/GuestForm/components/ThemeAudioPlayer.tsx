@@ -106,12 +106,12 @@ export const ThemeAudioPlayer: React.FC = () => {
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       }`}
     >
-      <div className="flex items-center justify-between px-3 py-2 bg-red-100">
+      <div className="flex items-center justify-between px-3 py-2 bg-amber-50">
         <div className="flex items-center space-x-2">
           <span className="text-xl">{getThemeEmoji()}</span>
-          <span className="text-sm font-medium text-red-800">{getThemeName()}</span>
+          <span className="text-sm font-medium text-[#8d6a32]">{getThemeName()}</span>
         </div>
-        <span className="text-xs bg-red-200 text-red-700 px-2 py-0.5 rounded-full">Soundtrack</span>
+        <span className="text-xs bg-amber-100 text-[#b48a3f] px-2 py-0.5 rounded-full">Soundtrack</span>
       </div>
       <AudioPlayer
         ref={playerRef}

@@ -62,7 +62,7 @@ export const ThemeBackground: React.FC<ThemeBackgroundProps> = ({ children }) =>
     <div className="min-h-screen relative overflow-hidden">
       {/* Fondo por defecto cuando no hay imagen seleccionada */}
       {!bgImage && (
-        <div className="absolute inset-0 bg-gradient-to-r from-pink-50 to-red-50 transition-opacity duration-1000 ease-in-out" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#fffbf0] to-[#fff8e8] transition-opacity duration-1000 ease-in-out" />
       )}
       
       {/* Imagen de fondo cuando hay una selección */}

@@ -71,7 +71,7 @@ export default function FormPageContent() {
         
         {isLoading ? (
           <div className="h-screen flex items-center justify-center">
-            <div className="w-16 h-16 border-4 border-red-200 border-t-red-400 rounded-full animate-spin"></div>
+            <div className="w-16 h-16 border-4 border-amber-200 border-t-[#b48a3f] rounded-full animate-spin"></div>
           </div>
         ) : (
           <motion.div
@@ -86,7 +86,7 @@ export default function FormPageContent() {
                 <motion.path 
                   d="M0,0 C30,20 70,20 100,0 V100 H0 Z" 
                   fill="none" 
-                  stroke="#FDA4AF" 
+                  stroke="#b48a3f" 
                   strokeWidth="0.2"
                   variants={decorVariants}
                   initial="hidden"
@@ -95,7 +95,7 @@ export default function FormPageContent() {
                 <motion.path 
                   d="M0,100 C30,80 70,80 100,100 V0 H0 Z" 
                   fill="none" 
-                  stroke="#FDA4AF" 
+                  stroke="#b48a3f" 
                   strokeWidth="0.2"
                   variants={decorVariants}
                   initial="hidden"
@@ -107,7 +107,7 @@ export default function FormPageContent() {
             {/* Título y descripción */}
             <Card>
               <motion.div className="max-w-4xl mx-auto mb-10 text-center" variants={itemVariants}>
-                <h1 className="text-4xl md:text-5xl font-parisienne text-red-400 mb-4">Confirmación de Asistencia</h1>
+                <h1 className="text-4xl md:text-5xl font-parisienne text-[#b48a3f] mb-4">Confirmación de Asistencia</h1>
                 <p className="text-gray-600 max-w-2xl mx-auto">
                   Por favor completa el formulario para confirmar tu asistencia a nuestra boda. 
                   Estamos muy emocionados de compartir este día especial contigo.
