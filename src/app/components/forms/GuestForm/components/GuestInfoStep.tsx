@@ -77,7 +77,7 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
       
       <Form.Item 
         name="rootGuestName" 
-        label="Nombre del invitado principal" 
+        label="Nombre del invitado" 
         rules={guestFormRules.rootGuestName}
         className="mb-8"
       >

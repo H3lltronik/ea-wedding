@@ -224,7 +224,7 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
 
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <Card
-          title={`Preferencias de ${guestName}${isCurrentGuestFixed ? ' (Fijo)' : ''}`}
+          title={`Preferencias de ${guestName}`}
           className="border-amber-100 shadow-sm"
           styles={{ header: { background: 'rgba(251, 243, 219, 0.5)' } }}
         >

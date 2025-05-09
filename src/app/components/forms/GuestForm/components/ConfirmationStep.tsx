@@ -74,7 +74,7 @@ export const ConfirmationStep: React.FC<ConfirmationStepProps> = ({ form }) => {
           {guests.map((guest, index) => (
             <Card 
               key={index}
-              title={`${guest.name} ${index === 0 ? '(Principal)' : ''}`}
+              title={`${guest.name}`}
               className="border-amber-100 shadow-sm"
               styles={{ header: { background: 'rgba(251, 243, 219, 0.5)' } }}
             >
@@ -93,28 +93,6 @@ export const ConfirmationStep: React.FC<ConfirmationStepProps> = ({ form }) => {
             </Card>
           ))}
         </div>
-        
-        <div className="bg-amber-50 p-4 rounded-lg mb-6">
-          <h4 className="font-semibold mb-2">Información importante</h4>
-          <p className="text-sm mb-2">Al confirmar, aceptas las siguientes condiciones:</p>
-          <ul className="list-disc pl-5 text-sm">
-            <li>La información proporcionada es correcta</li>
-            <li>Aceptas las políticas de la boda</li>
-            <li>Te comprometes a asistir al evento</li>
-          </ul>
-        </div>
-        
-        <Form.Item 
-          name="termsAccepted"
-          valuePropName="checked"
-          rules={[
-            { required: true, message: 'Debes aceptar los términos para continuar' }
-          ]}
-        >
-          <Checkbox>
-            Acepto los términos y condiciones
-          </Checkbox>
-        </Form.Item>
       </div>
     </motion.div>
   );

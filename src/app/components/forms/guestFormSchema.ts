@@ -22,7 +22,7 @@ export type GuestFormValues = {
 
 export const guestFormRules = {
   rootGuestName: [
-    { required: true, message: 'Por favor ingresa el nombre del invitado principal' },
+    { required: true, message: 'Por favor ingresa el nombre del invitado' },
     { min: 2, message: 'El nombre debe tener al menos 2 caracteres' },
     { max: 100, message: 'El nombre debe tener máximo 100 caracteres' },
   ] as Rule[],
