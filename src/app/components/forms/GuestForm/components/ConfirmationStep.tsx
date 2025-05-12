@@ -61,7 +61,7 @@ export const ConfirmationStep: React.FC<ConfirmationStepProps> = ({ form }) => {
       
       <Alert
         message="Por favor confirma que los datos son correctos"
-        description="Revisa la información antes de enviar el formulario. Una vez enviado, recibirás un correo de confirmación."
+        description="Revisa la información antes de enviar el formulario"
         type="info"
         showIcon
         className="mb-8"
