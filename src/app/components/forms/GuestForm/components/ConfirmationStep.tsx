@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Form, Alert, Card, Checkbox } from 'antd';
+import { Form, Alert, Card } from 'antd';
 import { motion } from 'framer-motion';
 import { ThemePreference, HogwartsHouse, StarWarsSide } from '../constants/enums';
 import { useFormContext } from '../context/FormContext';
