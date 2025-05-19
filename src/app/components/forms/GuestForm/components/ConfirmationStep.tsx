@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { Form, Alert, Card } from 'antd';
+import { Form, Alert, Card, Tag } from 'antd';
 import { motion } from 'framer-motion';
 import { ThemePreference, HogwartsHouse, StarWarsSide } from '../constants/enums';
 import { useFormContext } from '../context/FormContext';
+import { CloseCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 
 type ConfirmationStepProps = {
   form: ReturnType<typeof Form.useForm>[0];
@@ -71,27 +72,46 @@ export const ConfirmationStep: React.FC<ConfirmationStepProps> = ({ form }) => {
         <h3 className="text-lg font-semibold mb-4 text-gray-700">Resumen de invitados</h3>
         
         <div className="space-y-4 mb-8">
-          {guests.map((guest, index) => (
-            <Card 
-              key={index}
-              title={`${guest.name}`}
-              className="border-amber-100 shadow-sm"
-              styles={{ header: { background: 'rgba(251, 243, 219, 0.5)' } }}
-            >
-              <div className="space-y-2">
-                <p><span className="font-medium">Edad:</span> {guest.age !== undefined && guest.age !== null ? `${guest.age} años` : 'No especificada'}</p>
-                <p><span className="font-medium">Preferencia:</span> {getThemeName(guest.themePreference)}</p>
-                
-                {guest.themePreference === ThemePreference.HARRY_POTTER || guest.themePreference === ThemePreference.BOTH ? (
-                  <p><span className="font-medium">Casa:</span> {getHouseText(guest.house)}</p>
-                ) : null}
-                
-                {guest.themePreference === ThemePreference.STAR_WARS || guest.themePreference === ThemePreference.BOTH ? (
-                  <p><span className="font-medium">Lado de la fuerza:</span> {getJediSithText(guest.jediSith)}</p>
-                ) : null}
-              </div>
-            </Card>
-          ))}
+          {guests.map((guest, index) => {
+            const isAttending = guest.attending !== false;
+            
+            return (
+              <Card 
+                key={index}
+                title={`${guest.name}`}
+                className={`border-amber-100 shadow-sm ${!isAttending ? 'bg-red-50' : ''}`}
+                styles={{ 
+                  header: { 
+                    background: isAttending ? 'rgba(251, 243, 219, 0.5)' : 'rgba(254, 226, 226, 0.7)',
+                    color: !isAttending ? '#b91c1c' : undefined
+                  } 
+                }}
+                extra={
+                  <Tag color={isAttending ? 'success' : 'error'} icon={isAttending ? <CheckCircleOutlined /> : <CloseCircleOutlined />}>
+                    {isAttending ? 'Asistirá' : 'No asistirá'}
+                  </Tag>
+                }
+              >
+                <div className={`space-y-2 ${!isAttending ? 'opacity-70' : ''}`}>
+                  <p><span className="font-medium">Edad:</span> {guest.age !== undefined && guest.age !== null ? `${guest.age} años` : 'No especificada'}</p>
+                  
+                  {isAttending && (
+                    <>
+                      <p><span className="font-medium">Preferencia:</span> {getThemeName(guest.themePreference)}</p>
+                      
+                      {guest.themePreference === ThemePreference.HARRY_POTTER || guest.themePreference === ThemePreference.BOTH ? (
+                        <p><span className="font-medium">Casa:</span> {getHouseText(guest.house)}</p>
+                      ) : null}
+                      
+                      {guest.themePreference === ThemePreference.STAR_WARS || guest.themePreference === ThemePreference.BOTH ? (
+                        <p><span className="font-medium">Lado de la fuerza:</span> {getJediSithText(guest.jediSith)}</p>
+                      ) : null}
+                    </>
+                  )}
+                </div>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </motion.div>

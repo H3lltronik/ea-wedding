@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { ThemePreference, HogwartsHouse, StarWarsSide, FormStep } from '../constants/enums';
 import { Form } from 'antd';
 import { GuestFormValues } from '../../guestFormSchema';
+import { GuestService } from '../../../../services/supabaseService';
+import { TimeService } from '../../../../services/timeService';
 
 export type GuestInfo = {
   name: string;
@@ -10,6 +12,8 @@ export type GuestInfo = {
   house: HogwartsHouse | null;
   jediSith: StarWarsSide | null;
   is_fixed?: boolean;
+  attending?: boolean;
+  id?: string; // Para identificar invitados existentes
 };
 
 export type FormContextType = {
@@ -27,6 +31,7 @@ export type FormContextType = {
   updateGuestTheme: (guestIndex: number, theme: ThemePreference | null) => void;
   updateGuestHouse: (guestIndex: number, house: HogwartsHouse | null) => void;
   updateGuestJediSith: (guestIndex: number, side: StarWarsSide | null) => void;
+  updateGuestAttendance: (guestIndex: number, attending: boolean) => Promise<boolean>;
   
   // Obtener el invitado actual
   currentGuest: GuestInfo | null;
@@ -105,6 +110,57 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
       return newGuests;
     });
+  };
+
+  // Actualizar estado de asistencia de un invitado
+  const updateGuestAttendance = async (guestIndex: number, attending: boolean): Promise<boolean> => {
+    const guest = guests[guestIndex];
+    if (!guest) return false;
+    
+    // Si estamos cambiando de no asistir a asistir (descancelar), verificar fecha lu00edmite
+    if (attending === true && guest.attending === false) {
+      const isBeforeDeadline = await TimeService.isBeforeDeadline();
+      
+      if (!isBeforeDeadline) {
+        // La fecha lu00edmite ha pasado, no permitir descancelar
+        return false;
+      }
+    }
+    
+    // Si el invitado ya existe en la base de datos, actualizarlo
+    if (guest.id) {
+      const success = await GuestService.toggleGuestAttendance(guest.id, attending);
+      
+      if (success) {
+        // Actualizar estado local despuu00e9s de la actualizaciu00f3n exitosa en la BD
+        setGuests(prevGuests => {
+          const newGuests = [...prevGuests];
+          if (newGuests[guestIndex]) {
+            newGuests[guestIndex] = {
+              ...newGuests[guestIndex],
+              attending
+            };
+          }
+          return newGuests;
+        });
+      }
+      
+      return success;
+    } else {
+      // Si es un invitado nuevo que au00fan no estu00e1 en la BD, solo actualizar el estado local
+      setGuests(prevGuests => {
+        const newGuests = [...prevGuests];
+        if (newGuests[guestIndex]) {
+          newGuests[guestIndex] = {
+            ...newGuests[guestIndex],
+            attending
+          };
+        }
+        return newGuests;
+      });
+      
+      return true;
+    }
   };
 
   // Validate current step form
@@ -190,27 +246,32 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // Crear una estructura más adecuada que combine los datos del formulario y del estado
     const combinedData: GuestFormValues = {
       rootGuestName: guestInfoData.rootGuestName || '',
-      guests: guests.map((guest, index) => {
-        // Obtener datos del formulario para completar la información
-        const formGuest = (guestInfoData.guests || [])[index] || {};
-        
-        return {
-          name: guest.name || formGuest.name || '',
-          age: formGuest.age !== undefined ? formGuest.age : guest.age,
-          preferences: {
-            theme: guest.themePreference || ThemePreference.NONE,
-            house: guest.house || undefined,
-            jediSith: guest.jediSith || undefined
-          }
-        };
-      }),
+      guests: guests
+        .filter(guest => guest.attending !== false) // Solo incluir a los que van a asistir
+        .map(guest => {
+          // Obtener datos del formulario para completar la información
+          const formGuest = (guestInfoData.guests || [])[guests.indexOf(guest)] || {};
+          
+          return {
+            name: guest.name || formGuest.name || '',
+            age: formGuest.age !== undefined ? formGuest.age : guest.age,
+            preferences: {
+              theme: guest.themePreference || ThemePreference.NONE,
+              house: guest.house || undefined,
+              jediSith: guest.jediSith || undefined
+            },
+            id: guest.id // Pasar el ID para actualizar correctamente
+          };
+        }),
       // Mantener la estructura anterior para compatibilidad
-      themePreferences: guests.map((guest, index) => ({
-        guestIndex: index,
-        preference: guest.themePreference || ThemePreference.NONE,
-        house: guest.house || undefined,
-        jediSith: guest.jediSith || undefined
-      }))
+      themePreferences: guests
+        .filter(guest => guest.attending !== false) // Solo incluir a los que van a asistir
+        .map(guest => ({
+          guestIndex: guests.indexOf(guest),
+          preference: guest.themePreference || ThemePreference.NONE,
+          house: guest.house || undefined,
+          jediSith: guest.jediSith || undefined
+        }))
     };
     
     // Mostrar en consola los datos que se enviarían
@@ -234,6 +295,7 @@ export const FormProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     updateGuestTheme,
     updateGuestHouse,
     updateGuestJediSith,
+    updateGuestAttendance,
     currentGuest,
     guestInfoForm,
     setGuestInfoForm,

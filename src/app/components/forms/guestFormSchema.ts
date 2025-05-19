@@ -6,6 +6,7 @@ export type GuestFormValues = {
   guests: {
     name: string;
     age?: number;
+    id?: string;
     preferences?: {
       theme: ThemePreference | null;
       house?: HogwartsHouse;

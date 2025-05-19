@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Button, message } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Button, message, Tooltip } from 'antd';
 import { FormStep } from '../constants/enums';
 import { useFormContext } from '../context/FormContext';
+import { TimeService } from '@/app/services/timeService';
 
 type FormNavigationProps = {
   currentStep: FormStep;
@@ -25,10 +26,27 @@ export const FormNavigation: React.FC<FormNavigationProps> = ({
   currentGuestIndex
 }) => {
   const [validating, setValidating] = useState(false);
+  const [pastDeadline, setPastDeadline] = useState(false);
   const { validateCurrentStep } = useFormContext();
+  
+  // Verificar si ya pasó la fecha límite al cargar el componente
+  useEffect(() => {
+    const checkDeadline = async () => {
+      const isBeforeDeadline = await TimeService.isBeforeDeadline();
+      setPastDeadline(!isBeforeDeadline);
+    };
+    
+    checkDeadline();
+  }, []);
   
   // Manejador para el botón siguiente con validación
   const handleNext = async () => {
+    // Si ya pasó la fecha límite, no permitir avanzar
+    if (pastDeadline && currentStep === FormStep.GUEST_INFO) {
+      message.error('No es posible continuar después de la fecha límite (10 de mayo de 2025)');
+      return;
+    }
+    
     setValidating(true);
     
     try {
@@ -60,6 +78,12 @@ export const FormNavigation: React.FC<FormNavigationProps> = ({
   
   // Manejador para el botón de envío con validación
   const handleSubmitWithValidation = async () => {
+    // Si ya pasó la fecha límite, no permitir enviar
+    if (pastDeadline) {
+      message.error('No es posible enviar el formulario después de la fecha límite (10 de mayo de 2025)');
+      return;
+    }
+    
     setValidating(true);
     
     try {
@@ -94,6 +118,55 @@ export const FormNavigation: React.FC<FormNavigationProps> = ({
     return "Siguiente";
   };
   
+  // Renderizado de los botones con Tooltip para explicar por qué están deshabilitados si es el caso
+  const renderNextButton = () => {
+    // Si ya pasó la fecha límite y estamos en el primer paso, deshabilitar el botón
+    const isDisabled = (pastDeadline && currentStep === FormStep.GUEST_INFO) || submitting || validating;
+    const button = (
+      <Button 
+        type="primary" 
+        onClick={handleNext}
+        loading={validating}
+        disabled={isDisabled}
+      >
+        {getNextButtonText()}
+      </Button>
+    );
+    
+    if (pastDeadline && currentStep === FormStep.GUEST_INFO) {
+      return (
+        <Tooltip title="No es posible continuar después de la fecha límite (10 de mayo de 2025)">
+          {button}
+        </Tooltip>
+      );
+    }
+    
+    return button;
+  };
+  
+  const renderSubmitButton = () => {
+    const button = (
+      <Button 
+        type="primary" 
+        onClick={handleSubmitWithValidation}
+        loading={submitting}
+        disabled={validating || pastDeadline}
+      >
+        Enviar información
+      </Button>
+    );
+    
+    if (pastDeadline) {
+      return (
+        <Tooltip title="No es posible enviar el formulario después de la fecha límite (10 de mayo de 2025)">
+          {button}
+        </Tooltip>
+      );
+    }
+    
+    return button;
+  };
+  
   return (
     <div className="flex justify-between mt-6">
       {/* Botón para retroceder, no se muestra en el primer paso */}
@@ -110,25 +183,7 @@ export const FormNavigation: React.FC<FormNavigationProps> = ({
       
       {/* Botón para avanzar o enviar, dependiendo del paso */}
       <div>
-        {isSubmitStep ? (
-          <Button 
-            type="primary" 
-            onClick={handleSubmitWithValidation}
-            loading={submitting}
-            disabled={validating}
-          >
-            Enviar información
-          </Button>
-        ) : (
-          <Button 
-            type="primary" 
-            onClick={handleNext}
-            loading={validating}
-            disabled={submitting}
-          >
-            {getNextButtonText()}
-          </Button>
-        )}
+        {isSubmitStep ? renderSubmitButton() : renderNextButton()}
       </div>
     </div>
   );

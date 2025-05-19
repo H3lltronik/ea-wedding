@@ -36,6 +36,7 @@ export default function GuestForm() {
   // Get context state
   const { 
     setGuests,
+    guests,
     currentGuestIndex,
     setCurrentGuestIndex,
     isSubmitting,
@@ -105,6 +106,8 @@ export default function GuestForm() {
           house: null,
           jediSith: null,
           is_fixed: existingGuest?.is_fixed || (i === 0), // Root guest is always fixed
+          attending: existingGuest?.attending !== false, // Por defecto, se asume que asisten
+          id: existingGuest?.id, // Guardar el ID para futuras actualizaciones
         };
       }));
     }
@@ -116,15 +119,29 @@ export default function GuestForm() {
       if (currentStep === FormStep.GUEST_INFO) {
         // La validación se hará en FormNavigation
         setCurrentStep(FormStep.THEME_PREFERENCES);
+        
+        // Buscar el próximo invitado que asistirá (ignorar cancelados)
+        const nextAttendingIndex = guests.findIndex((guest, idx) => 
+          idx >= 0 && guest.attending !== false
+        );
+        
+        if (nextAttendingIndex >= 0) {
+          setCurrentGuestIndex(nextAttendingIndex);
+        }
       } else if (currentStep === FormStep.THEME_PREFERENCES) {
         // La validación se hará en FormNavigation
         
-        // Si estamos en el último invitado o ya hemos completado todos
-        if (currentGuestIndex >= (rootInvitation?.invitations_amount || 0) - 1) {
+        // Buscar el próximo invitado que asistirá (ignorar cancelados)
+        const nextAttendingIndex = guests.findIndex((guest, idx) => 
+          idx > currentGuestIndex && guest.attending !== false
+        );
+        
+        // Si estamos en el último invitado asistente o ya hemos completado todos
+        if (nextAttendingIndex === -1) {
           setCurrentStep(FormStep.CONFIRMATION);
         } else {
-          // Pasar al siguiente invitado
-          setCurrentGuestIndex(currentGuestIndex + 1);
+          // Pasar al siguiente invitado que asistirá
+          setCurrentGuestIndex(nextAttendingIndex);
         }
       }
     } catch (error) {
@@ -136,14 +153,33 @@ export default function GuestForm() {
   const prev = () => {
     if (currentStep === FormStep.THEME_PREFERENCES) {
       if (currentGuestIndex > 0) {
-        // Volver al invitado anterior
-        setCurrentGuestIndex(currentGuestIndex - 1);
+        // Buscar el invitado anterior que asistirá (ignorar cancelados)
+        const prevAttendingIndex = [...guests].reverse().findIndex((guest, idx) => 
+          guests.length - 1 - idx < currentGuestIndex && guest.attending !== false
+        );
+        
+        if (prevAttendingIndex !== -1) {
+          // Convertir el índice invertido a índice real
+          setCurrentGuestIndex(guests.length - 1 - prevAttendingIndex);
+        } else {
+          // Si no hay invitados asistentes previos, ir al paso anterior
+          setCurrentStep(FormStep.GUEST_INFO);
+        }
       } else {
         // Volver al paso anterior
         setCurrentStep(FormStep.GUEST_INFO);
       }
     } else if (currentStep === FormStep.CONFIRMATION) {
       setCurrentStep(FormStep.THEME_PREFERENCES);
+      
+      // Buscar el último invitado que asistirá
+      const lastAttendingIndex = [...guests].reverse().findIndex(guest => 
+        guest.attending !== false
+      );
+      
+      if (lastAttendingIndex !== -1) {
+        setCurrentGuestIndex(guests.length - 1 - lastAttendingIndex);
+      }
     }
   };
   
@@ -272,8 +308,12 @@ export default function GuestForm() {
     }
   };
   
-  // Determinar si todos los invitados han completado sus preferencias
-  const hasCompletedAllGuests = currentGuestIndex >= (rootInvitation?.invitations_amount || 0);
+  // Determine if all attending guests have completed their preferences
+  const hasCompletedAllGuests = !guests.some((guest, index) => 
+    guest.attending !== false && // Solo contar a los que van a asistir
+    index > currentGuestIndex && 
+    currentStep === FormStep.THEME_PREFERENCES
+  );
   
   // No mostrar navegación si estamos mostrando la alerta de respuesta existente
   const shouldShowNavigation = !existingSubmission;

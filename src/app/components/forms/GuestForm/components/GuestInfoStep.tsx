@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
-import { Form, Input, InputNumber, Card } from 'antd';
+import { Form, Input, InputNumber, Card, Button, Tooltip, message } from 'antd';
 import { motion } from 'framer-motion';
 import { guestFormRules } from '../../../forms/guestFormSchema';
 import { useFormContext } from '../context/FormContext';
 import { GuestFormValues } from '../../../forms/guestFormSchema';
 import { Guest } from '@/app/types/supabase';
+import { CloseCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { TimeService } from '@/app/services/timeService';
 
 type GuestInfoStepProps = {
   guestsCount: number;
@@ -17,7 +19,7 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
   form,
   existingGuests = []
 }) => {
-  const { setGuests, setGuestInfoForm, guests } = useFormContext();
+  const { setGuests, setGuestInfoForm, guests, updateGuestAttendance } = useFormContext();
   
   // Register form with context
   useEffect(() => {
@@ -65,6 +67,55 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
     return existingGuest?.is_fixed || false;
   };
   
+  // Manejar la cancelación o descancelación de asistencia
+  const handleToggleAttendance = async (index: number) => {
+    const guest = guests[index];
+    const newAttendingStatus = !guest.attending;
+    
+    // Si estamos intentando descancelar (cambiar de no asistir a asistir), verificar fecha límite
+    if (newAttendingStatus === true && guest.attending === false) {
+      const isBeforeDeadline = await TimeService.isBeforeDeadline();
+      
+      if (!isBeforeDeadline) {
+        message.error(
+          'No es posible confirmar asistencia después de la fecha límite (10 de mayo de 2025)',
+          5
+        );
+        return;
+      }
+    }
+    
+    // Mostrar mensaje de carga
+    const loadingMessage = message.loading(
+      `${newAttendingStatus ? 'Confirmando' : 'Cancelando'} asistencia...`, 
+      0
+    );
+    
+    try {
+      const success = await updateGuestAttendance(index, newAttendingStatus);
+      
+      if (success) {
+        message.success(
+          `${newAttendingStatus ? 'Asistencia confirmada' : 'Asistencia cancelada'} correctamente`
+        );
+      } else {
+        if (newAttendingStatus) {
+          // Si fallaba confirmar asistencia, mostrar mensaje especial para fecha límite
+          message.error(
+            'No es posible confirmar asistencia después de la fecha límite (10 de mayo de 2025)'
+          );
+        } else {
+          message.error('No se pudo actualizar el estado de asistencia');
+        }
+      }
+    } catch (error) {
+      console.error('Error al cambiar asistencia:', error);
+      message.error('Error al actualizar el estado de asistencia');
+    } finally {
+      loadingMessage();
+    }
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -94,16 +145,34 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
         
         <div className="space-y-6">
           {Array(guestsCount).fill(null).map((_, index) => {
-            // const isFixed = isGuestFixed(index);
+            const guest = guests[index] || {};
+            const isAttending = guest.attending !== false; // Por defecto, se asume que asisten
             
             return (
               <Card 
                 key={index}
                 title={`Invitado ${index + 1}`}
-                className="border-amber-100 shadow-sm"
-                styles={{ header: { background: 'rgba(251, 243, 219, 0.5)' } }}
+                className={`border-amber-100 shadow-sm ${!isAttending ? 'bg-red-50' : ''}`}
+                styles={{ 
+                  header: { 
+                    background: isAttending ? 'rgba(251, 243, 219, 0.5)' : 'rgba(254, 226, 226, 0.7)',
+                    color: !isAttending ? '#b91c1c' : undefined
+                  } 
+                }}
+                extra={
+                  <Tooltip title={isAttending ? 'Cancelar asistencia' : 'Confirmar asistencia'}>
+                    <Button 
+                      type={isAttending ? 'default' : 'primary'}
+                      danger={isAttending}
+                      icon={isAttending ? <CloseCircleOutlined /> : <CheckCircleOutlined />}
+                      onClick={() => handleToggleAttendance(index)}
+                    >
+                      {isAttending ? 'Cancelar' : 'Confirmar'}
+                    </Button>
+                  </Tooltip>
+                }
               >
-                <div className="flex flex-wrap gap-4">
+                <div className={`flex flex-wrap gap-4 ${!isAttending ? 'opacity-70' : ''}`}>
                   <Form.Item 
                     name={['guests', index, 'name']} 
                     label="Nombre" 
@@ -113,7 +182,7 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
                   >
                     <Input 
                       placeholder="Nombre completo" 
-                      className="bg-amber-50 border-amber-200"
+                      className={`bg-amber-50 border-amber-200 ${!isAttending ? 'text-red-700' : ''}`}
                       onChange={() => onFormValuesChange()}
                     />
                   </Form.Item>
@@ -129,7 +198,7 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
                       min={0} 
                       max={120} 
                       placeholder="Edad" 
-                      className="bg-amber-50 border-amber-200 w-full"
+                      className={`bg-amber-50 border-amber-200 w-full ${!isAttending ? 'text-red-700' : ''}`}
                       onChange={() => onFormValuesChange()}
                     />
                   </Form.Item>
