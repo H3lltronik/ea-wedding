@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { Card, Form, message, Alert, Button } from 'antd';
+import { Card, Form, message } from 'antd';
 import { 
   GuestInfoStep, 
   ThemePreferencesStep, 
@@ -26,10 +26,6 @@ export default function GuestForm() {
   // Obtener el código de invitación para usarlo en redirecciones
   const { invitationCode } = useInvitationCode();
   
-  // Estados para controlar si ya existe una respuesta
-  const [existingSubmission, setExistingSubmission] = useState<boolean>(false);
-  const [checkingSubmission, setCheckingSubmission] = useState<boolean>(true);
-  
   // Get invitation data and existing guests
   const { rootInvitation, existingGuests, loading, error } = useRootInvitation();
   
@@ -48,30 +44,9 @@ export default function GuestForm() {
   // Estado del formulario (paso actual)
   const [currentStep, setCurrentStep] = useState<FormStep>(FormStep.GUEST_INFO);
   
-  // Verificar si ya existe una respuesta para esta invitación usando has_answered
-  useEffect(() => {
-    const checkExistingSubmission = async () => {
-      if (rootInvitation?.id) {
-        setCheckingSubmission(true);
-        try {
-          const { exists } = await GuestService.checkExistingSubmission(rootInvitation.id);
-          setExistingSubmission(exists);
-        } catch (error) {
-          console.error('Error al verificar respuesta existente:', error);
-        } finally {
-          setCheckingSubmission(false);
-        }
-      }
-    };
-    
-    if (rootInvitation) {
-      checkExistingSubmission();
-    }
-  }, [rootInvitation]);
-  
   // Setup initial guest data when rootInvitation changes
   useEffect(() => {
-    if (rootInvitation && !existingSubmission) {
+    if (rootInvitation) {
       const guestsCount = rootInvitation.invitations_amount;
       
       // Map existing guests into a lookup table by index (if any)
@@ -102,16 +77,16 @@ export default function GuestForm() {
         return {
           name: existingGuest ? existingGuest.name : (i === 0 ? rootInvitation.name : ''),
           age: existingGuest?.age || 0,
-          themePreference: null,
-          house: null,
-          jediSith: null,
+          themePreference: existingGuest?.themePreference || null,
+          house: existingGuest?.house || null,
+          jediSith: existingGuest?.jediSith || null,
           is_fixed: existingGuest?.is_fixed || (i === 0), // Root guest is always fixed
           attending: existingGuest?.attending !== false, // Por defecto, se asume que asisten
           id: existingGuest?.id, // Guardar el ID para futuras actualizaciones
         };
       }));
     }
-  }, [rootInvitation, existingGuests, form, setGuests, existingSubmission]);
+  }, [rootInvitation, existingGuests, form, setGuests]);
   
   // Navegar al siguiente paso
   const next = async () => {
@@ -246,51 +221,14 @@ export default function GuestForm() {
     }
   };
   
-  // Renderizar notificación de respuesta existente
-  const renderExistingSubmissionAlert = () => {
-    if (existingSubmission && rootInvitation) {
-      // Crear la URL para redireccionar con el código de invitación
-      let redirectUrl = '/';
-      
-      // Agregar el código de invitación codificado en base64 si está disponible
-      if (invitationCode) {
-        const encodedCode = Buffer.from(invitationCode).toString('base64');
-        redirectUrl = `/?code=${encodedCode}`;
-      }
-      
-      return (
-        <Alert
-          message={`¡Gracias ${rootInvitation.name}!`}
-          description={
-            <div>
-              <p>Detectamos que ya has completado este formulario anteriormente. Agradecemos tu respuesta y nos emociona contar con tu presencia.</p>
-              <Button type="primary" onClick={() => router.push(redirectUrl)}>
-                Volver al inicio
-              </Button>
-            </div>
-          }
-          type="success"
-          showIcon
-          className="mb-6"
-        />
-      );
-    }
-    return null;
-  };
-  
   // Renderizar contenido según el paso actual
   const renderContent = () => {
-    if (loading || checkingSubmission) {
+    if (loading) {
       return <LoadingIndicator />;
     }
     
     if (error || !rootInvitation) {
       return <ErrorMessage />;
-    }
-    
-    // Si existe una respuesta previa, mostrar alerta
-    if (existingSubmission) {
-      return renderExistingSubmissionAlert();
     }
     
     switch (currentStep) {
@@ -315,9 +253,6 @@ export default function GuestForm() {
     currentStep === FormStep.THEME_PREFERENCES
   );
   
-  // No mostrar navegación si estamos mostrando la alerta de respuesta existente
-  const shouldShowNavigation = !existingSubmission;
-  
   return (
     <div className="py-10 px-4 min-h-screen">
       <div className="max-w-4xl mx-auto">
@@ -333,7 +268,7 @@ export default function GuestForm() {
           className="antd-wed-form"
         >
           {renderContent()}
-          {!loading && !checkingSubmission && shouldShowNavigation && (
+          {!loading && (
             <FormNavigation 
               currentStep={currentStep}
               prev={prev}
