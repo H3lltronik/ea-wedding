@@ -5,7 +5,7 @@
 
 export class TimeService {
   private static readonly WORLDTIME_API_URL = 'https://worldtimeapi.org/api/timezone/America/Mexico_City';
-  private static readonly DATE_LIMIT = new Date('2025-05-10T23:59:59');
+  private static readonly DATE_LIMIT = new Date('2024-09-30T23:59:59');
   
   /**
    * Obtiene la hora actual de México usando una API pública
