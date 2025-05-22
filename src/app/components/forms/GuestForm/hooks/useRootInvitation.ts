@@ -49,8 +49,41 @@ export function useRootInvitation() {
           .select('*')
           .eq('root_invitation_id', invitationCode);
           
-        if (!guestsError && guestsData) {
-          setExistingGuests(guestsData);
+        if (guestsError) {
+          console.error('Error fetching guests:', guestsError);
+          setExistingGuests([]);
+        } else if (guestsData && guestsData.length > 0) {
+          // Now fetch preferences for each guest
+          const enhancedGuests = await Promise.all(
+            guestsData.map(async (guest) => {
+              // Get preferences from preferences table
+              const { data: preferencesData, error: prefError } = await supabase
+                .from('preferences')
+                .select('*')
+                .eq('guest_id', guest.id)
+                .single();
+              
+              if (prefError || !preferencesData) {
+                console.log(`No preferences found for guest ${guest.name}`);
+                return guest;
+              }
+              
+              // Add the preferences to the guest object
+              const prefs = preferencesData.preferences;
+              return {
+                ...guest,
+                age: prefs?.age || guest.age,
+                themePreference: prefs?.theme || null,
+                house: prefs?.house || null,
+                jediSith: prefs?.jediSith || null,
+                preferences: [preferencesData]
+              };
+            })
+          );
+          
+          setExistingGuests(enhancedGuests);
+        } else {
+          setExistingGuests([]);
         }
       } catch (err) {
         console.error('Error fetching invitation:', err);

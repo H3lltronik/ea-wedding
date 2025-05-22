@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, InputNumber, Card, Button, Tooltip, message } from 'antd';
 import { motion } from 'framer-motion';
 import { guestFormRules } from '../../../forms/guestFormSchema';
@@ -20,10 +20,14 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
   existingGuests = []
 }) => {
   const { setGuests, setGuestInfoForm, guests, updateGuestAttendance } = useFormContext();
+  const [formattedDeadline, setFormattedDeadline] = useState('');
   
   // Register form with context
   useEffect(() => {
     setGuestInfoForm(form);
+    
+    // Get formatted deadline
+    setFormattedDeadline(TimeService.getFormattedDeadline());
     
     // Cleanup on unmount
     return () => {
@@ -78,7 +82,7 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
       
       if (!isBeforeDeadline) {
         message.error(
-          'No es posible confirmar asistencia después de la fecha límite (10 de mayo de 2025)',
+          `No es posible confirmar asistencia después de la fecha límite (${formattedDeadline})`,
           5
         );
         return;
@@ -102,7 +106,7 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
         if (newAttendingStatus) {
           // Si fallaba confirmar asistencia, mostrar mensaje especial para fecha límite
           message.error(
-            'No es posible confirmar asistencia después de la fecha límite (10 de mayo de 2025)'
+            `No es posible confirmar asistencia después de la fecha límite (${formattedDeadline})`
           );
         } else {
           message.error('No se pudo actualizar el estado de asistencia');

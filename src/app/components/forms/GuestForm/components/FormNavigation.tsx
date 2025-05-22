@@ -27,6 +27,7 @@ export const FormNavigation: React.FC<FormNavigationProps> = ({
 }) => {
   const [validating, setValidating] = useState(false);
   const [pastDeadline, setPastDeadline] = useState(false);
+  const [formattedDeadline, setFormattedDeadline] = useState('');
   const { validateCurrentStep } = useFormContext();
   
   // Verificar si ya pasó la fecha límite al cargar el componente
@@ -34,6 +35,7 @@ export const FormNavigation: React.FC<FormNavigationProps> = ({
     const checkDeadline = async () => {
       const isBeforeDeadline = await TimeService.isBeforeDeadline();
       setPastDeadline(!isBeforeDeadline);
+      setFormattedDeadline(TimeService.getFormattedDeadline());
     };
     
     checkDeadline();
@@ -43,7 +45,7 @@ export const FormNavigation: React.FC<FormNavigationProps> = ({
   const handleNext = async () => {
     // Si ya pasó la fecha límite, no permitir avanzar
     if (pastDeadline && currentStep === FormStep.GUEST_INFO) {
-      message.error('No es posible continuar después de la fecha límite (10 de mayo de 2025)');
+      message.error(`No es posible continuar después de la fecha límite (${formattedDeadline})`);
       return;
     }
     
@@ -80,7 +82,7 @@ export const FormNavigation: React.FC<FormNavigationProps> = ({
   const handleSubmitWithValidation = async () => {
     // Si ya pasó la fecha límite, no permitir enviar
     if (pastDeadline) {
-      message.error('No es posible enviar el formulario después de la fecha límite (10 de mayo de 2025)');
+      message.error(`No es posible enviar el formulario después de la fecha límite (${formattedDeadline})`);
       return;
     }
     
@@ -135,7 +137,7 @@ export const FormNavigation: React.FC<FormNavigationProps> = ({
     
     if (pastDeadline && currentStep === FormStep.GUEST_INFO) {
       return (
-        <Tooltip title="No es posible continuar después de la fecha límite (10 de mayo de 2025)">
+        <Tooltip title={`No es posible continuar después de la fecha límite (${formattedDeadline})`}>
           {button}
         </Tooltip>
       );
@@ -158,7 +160,7 @@ export const FormNavigation: React.FC<FormNavigationProps> = ({
     
     if (pastDeadline) {
       return (
-        <Tooltip title="No es posible enviar el formulario después de la fecha límite (10 de mayo de 2025)">
+        <Tooltip title={`No es posible enviar el formulario después de la fecha límite (${formattedDeadline})`}>
           {button}
         </Tooltip>
       );

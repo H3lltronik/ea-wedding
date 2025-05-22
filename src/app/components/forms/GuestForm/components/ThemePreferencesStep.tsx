@@ -42,6 +42,12 @@ export const ThemePreferencesStep: React.FC<ThemePreferencesStepProps> = ({ form
   // Sincronizar guest actual con el formulario cuando cambia
   useEffect(() => {
     if (currentGuest) {
+      console.log('Updating form with currentGuest preferences:', {
+        themePreference: currentGuest.themePreference,
+        house: currentGuest.house,
+        jediSith: currentGuest.jediSith
+      });
+      
       form.setFieldsValue({
         themePreference: currentGuest.themePreference,
         house: currentGuest.house,

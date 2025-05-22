@@ -2,10 +2,12 @@
  * Servicio para manejar operaciones relacionadas con fechas y tiempos
  * Utiliza la API de WorldTime para obtener la hora actual de México
  */
+import dayjs from 'dayjs';
+import 'dayjs/locale/es';
 
 export class TimeService {
   private static readonly WORLDTIME_API_URL = 'https://worldtimeapi.org/api/timezone/America/Mexico_City';
-  private static readonly DATE_LIMIT = new Date('2024-09-30T23:59:59');
+  private static readonly DATE_LIMIT = new Date('2025-09-30T23:59:59');
   
   /**
    * Obtiene la hora actual de México usando una API pública
@@ -36,5 +38,14 @@ export class TimeService {
   static async isBeforeDeadline(): Promise<boolean> {
     const currentTime = await this.getCurrentMexicoTime();
     return currentTime < this.DATE_LIMIT;
+  }
+
+  /**
+   * Retorna la fecha límite formateada para mostrar en mensajes
+   * @returns La fecha límite en formato legible (ej: "30 de septiembre de 2025")
+   */
+  static getFormattedDeadline(): string {
+    dayjs.locale('es');
+    return dayjs(this.DATE_LIMIT).format('D [de] MMMM [de] YYYY');
   }
 } 

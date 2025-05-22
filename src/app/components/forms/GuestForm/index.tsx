@@ -74,6 +74,18 @@ export default function GuestForm() {
       // Initialize guests in context
       setGuests(Array(guestsCount).fill(null).map((_, i) => {
         const existingGuest = existingGuestsMap.get(i);
+        
+        // Debug to verify existing guest data
+        if (existingGuest) {
+          console.log(`Guest ${i} data:`, {
+            name: existingGuest.name,
+            age: existingGuest.age,
+            themePreference: existingGuest.themePreference,
+            house: existingGuest.house,
+            jediSith: existingGuest.jediSith
+          });
+        }
+        
         return {
           name: existingGuest ? existingGuest.name : (i === 0 ? rootInvitation.name : ''),
           age: existingGuest?.age || 0,
