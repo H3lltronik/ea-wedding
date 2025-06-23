@@ -47,8 +47,10 @@ export function useRootInvitation() {
         const { data: guestsData, error: guestsError } = await supabase
           .from('guests')
           .select('*')
-          .eq('root_invitation_id', invitationCode);
-          
+          .eq('root_invitation_id', invitationCode)
+          .order('is_root', { ascending: false })
+          .order('created_at', { ascending: true });
+        
         if (guestsError) {
           console.error('Error fetching guests:', guestsError);
           setExistingGuests([]);

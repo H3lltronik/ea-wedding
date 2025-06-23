@@ -51,12 +51,15 @@ export default function GuestForm() {
       
       // Map existing guests into a lookup table by index (if any)
       const existingGuestsMap = new Map();
-      existingGuests.forEach(guest => {
-        // Determine index by is_root or other criteria
-        const index = guest.is_root ? 0 : existingGuests.indexOf(guest);
-        if (index >= 0 && index < guestsCount) {
-          existingGuestsMap.set(index, guest);
-        }
+      const rootGuest = existingGuests.find(g => g.is_root);
+      const otherGuests = existingGuests.filter(g => !g.is_root);
+
+      if (rootGuest) {
+        existingGuestsMap.set(0, rootGuest);
+      }
+      
+      otherGuests.forEach((guest, i) => {
+        existingGuestsMap.set(i + 1, guest); 
       });
       
       // Initialize form with initial values considering existing guests
