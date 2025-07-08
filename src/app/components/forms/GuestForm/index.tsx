@@ -269,7 +269,7 @@ export default function GuestForm() {
   );
   
   return (
-    <div className="py-10 px-4 min-h-screen">
+    <div className="py-md-10 px-md-4 min-h-screen mb-16 md:mb-0">
       <div className="max-w-4xl mx-auto">
         <Card>
           <FormSteps currentStep={currentStep} />

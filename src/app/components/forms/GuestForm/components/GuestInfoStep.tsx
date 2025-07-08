@@ -126,7 +126,7 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
-      className="max-w-3xl mx-auto p-6"
+      className="max-w-3xl mx-auto p-md-6"
     >
       <h2 className="text-4xl font-parisienne text-center mb-8 text-[#b48a3f]">Información de invitados</h2>
       
@@ -170,8 +170,11 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
                       danger={isAttending}
                       icon={isAttending ? <CloseCircleOutlined /> : <CheckCircleOutlined />}
                       onClick={() => handleToggleAttendance(index)}
+                      className="hidden sm:inline-flex"
                     >
-                      {isAttending ? 'Cancelar' : 'Confirmar'}
+                      <span className="hidden sm:inline">
+                        {isAttending ? 'Cancelar' : 'Confirmar'}
+                      </span>
                     </Button>
                   </Tooltip>
                 }
@@ -181,7 +184,7 @@ export const GuestInfoStep: React.FC<GuestInfoStepProps> = ({
                     name={['guests', index, 'name']} 
                     label="Nombre" 
                     rules={guestFormRules.guestName}
-                    className="flex-1 min-w-[250px]"
+                    className="flex-1 min-w-[150px] sm:min-w-[250px]"
                     validateTrigger={['onChange', 'onBlur']}
                   >
                     <Input 
