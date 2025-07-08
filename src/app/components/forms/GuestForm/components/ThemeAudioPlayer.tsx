@@ -139,21 +139,68 @@ export const ThemeAudioPlayer: React.FC = () => {
   // Renderizar icono colapsado
   if (isCollapsed) {
     return (
-      <div 
-        className={`fixed bottom-4 right-4 z-50 transition-all duration-300 ease-in-out ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-        }`}
-      >
-        <button
-          onClick={handleExpandPlayer}
-          className={`w-12 h-12 rounded-full bg-amber-100 shadow-lg hover:bg-amber-200 transition-all duration-200 flex items-center justify-center ${
-            isPlaying ? 'animate-pulse' : ''
+      <>
+        {/* Icono colapsado visible */}
+        <div 
+          className={`fixed bottom-4 right-4 z-50 transition-all duration-300 ease-in-out ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
-          title={`${getThemeName()} - ${isPlaying ? 'Reproduciendo' : 'Pausado'}`}
         >
-          <span className="text-2xl">🎵</span>
-        </button>
-      </div>
+          <button
+            onClick={handleExpandPlayer}
+            className={`w-12 h-12 rounded-full bg-amber-100 shadow-lg hover:bg-amber-200 transition-all duration-200 flex items-center justify-center ${
+              isPlaying ? 'animate-pulse' : ''
+            }`}
+            title={`${getThemeName()} - ${isPlaying ? 'Reproduciendo' : 'Pausado'}`}
+          >
+            <span className="text-2xl">🎵</span>
+          </button>
+        </div>
+        
+        {/* Reproductor oculto pero montado */}
+        <div className="fixed bottom-4 right-4 z-50 w-80 shadow-lg rounded-lg overflow-hidden bg-white/95 backdrop-blur-sm opacity-0 pointer-events-none">
+          <div className="flex items-center justify-between px-3 py-2 bg-amber-50">
+            <div className="flex items-center space-x-2">
+              <span className="text-xl">{getThemeEmoji()}</span>
+              <span className="text-sm font-medium text-[#8d6a32]">{getThemeName()}</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-xs bg-amber-100 text-[#b48a3f] px-2 py-0.5 rounded-full">Soundtrack</span>
+              <button
+                onClick={handleToggleCollapse}
+                className="text-gray-500 hover:text-gray-700 transition-colors duration-200 p-1"
+                title="Colapsar reproductor"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <AudioPlayer
+            ref={playerRef}
+            src={audioSrc}
+            autoPlay={true}
+            autoPlayAfterSrcChange={true}
+            loop={true}
+            preload="auto"
+            volume={0.7}
+            onError={(e) => console.error('[ThemeAudioPlayer] Error:', e)}
+            style={{ backgroundColor: 'transparent' }}
+            className="theme-audio-player"
+            showJumpControls={false}
+            layout="horizontal-reverse"
+            customControlsSection={[
+              RHAP_UI.MAIN_CONTROLS,
+              RHAP_UI.VOLUME_CONTROLS
+            ]}
+            customProgressBarSection={[
+              RHAP_UI.PROGRESS_BAR
+            ]}
+          />
+        </div>
+      </>
     );
   }
 
